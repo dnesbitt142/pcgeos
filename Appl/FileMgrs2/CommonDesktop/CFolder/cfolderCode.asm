@@ -2511,6 +2511,7 @@ CopyInAndSetNewMoniker	proc	near
 
 if _NEWDESK
 	call	TruncateMonikerToLastElement
+	call    UseWastebasketMonikerIfNeeded
 endif
 	;
 	; set up new visual moniker and copy it into folder window chunk
@@ -2625,6 +2626,75 @@ done:						;   the last name
 	.leave
 	ret
 TruncateMonikerToLastElement	endp
+
+
+COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		UseWastebasketMonikerIfNeeded
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+SYNOPSIS:	Use the localized Wastebasket moniker for the wastebasket
+		folder window.
+
+CALLED BY:	CopyInAndSetNewMoniker
+
+PASS:		*ds:si	- FolderClass object block
+		ss:bp	- inherited FolderSetPrimaryMoniker local vars
+
+RETURN:		ss:[locals].SPMV_folderName replaced with the localized
+		WastebasketLink text if this is the wastebasket
+
+DESTROYED:	nothing
+
+PSEUDO CODE/STRATEGY:
+		NewDesk/Motif normally truncates the window moniker to the last
+		path element.  For the wastebasket this leaves the implementation
+		directory name, WASTE.  Use the already-localizable WastebasketLink
+		string instead.
+
+KNOWN BUGS/SIDE EFFECTS/IDEAS:
+		None.
+
+REVISION HISTORY:
+	Name	Date		Description
+	----	----		-----------
+	dn	6/9/26		Initial version
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
+UseWastebasketMonikerIfNeeded	proc	near
+	uses	ax,bx,si,di,ds,es
+
+	.enter	inherit	FolderSetPrimaryMoniker
+
+	mov	si, FOLDER_OBJECT_OFFSET
+	DerefFolderObject	ds, si, di
+
+	.warn	-private
+	cmp	ds:[di].NDFOI_ndObjType, WOT_WASTEBASKET
+	.warn	@private
+	jne	done
+
+	;
+	; WastebasketLink is defined in DeskStringsCommon in
+	; CommonDesktop/CUI/cuiStrings.ui, so this remains localizable.
+	;
+	mov	bx, handle WastebasketLink
+	call	MemLock
+	mov	ds, ax
+	mov	si, offset WastebasketLink
+	mov	si, ds:[si]
+
+	push	bx
+	segmov	es, ss
+	lea	di, ss:[locals].SPMV_folderName
+	LocalCopyString
+	pop	bx
+
+	call	MemUnlock
+
+done:
+	.leave
+	ret
+UseWastebasketMonikerIfNeeded	endp
 endif		; if _NEWDESK
 
 
