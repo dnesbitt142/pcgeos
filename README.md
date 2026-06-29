@@ -1,5 +1,7 @@
 # OpenSpellGEOS
-This branch contains an initial prototype of a spell check engine and open source US English dictionary (contained in dicts.zip) for FreeGEOS Ensemble. The US-English dictionary is based on [Wordlist](https://github.com/en-wl/wordlist) - [license terms](https://github.com/en-wl/wordlist?tab=License-1-ov-file)
+This branch contains an initial prototype of a spell check engine and open source US English dictionary (contained in dicts.zip) for FreeGEOS Ensemble. The US-English dictionary is based on [Wordlist](https://github.com/en-wl/wordlist) - [license terms](https://github.com/en-wl/wordlist?tab=License-1-ov-file). This is in a very early stage of development. **Use at your own risk, it will crash the spellchecker (and Ensemble) if you attempt to use unimplemented features (like user dictionaries)!**
+
+**The dictionary format provided here will only work with the spell.geo built from this repo, and will not work with Ensemble 4.x and under, as previous versions use the propitiatory Houghton-Mifflin structured dictionaries**
 
 # PC/GEOS
 This repository is the official place to hold all the source codes around the PC/GEOS graphical user
