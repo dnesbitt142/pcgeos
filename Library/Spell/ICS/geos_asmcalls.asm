@@ -205,6 +205,129 @@ else
 GEOSfileOpen	endp
 endif
 
+
+
+COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                OSGDICTOPEN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+SYNOPSIS:       Open the OpenSpellGEOS dictionary using GEOS ASM file APIs.
+
+CALLED BY:      Watcom C osgspell.c
+PASS:           nothing
+RETURN:         ax = FileHandle, or 0 on failure
+DESTROYED:      nothing important
+
+NOTES:
+        This is deliberately a no-argument wrapper so Watcom C does not have
+        to pass far filename pointers into the old Borland/Pascal spell file
+        wrappers.  It follows the same GEOS file pattern used elsewhere in
+        this file: FilePushDir/FileSetCurrentPath/FileOpen/HandleModifyOwner.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
+ifdef __BORLANDC__
+global  OSGDICTOPEN:far
+OSGDICTOPEN     proc    far
+else
+global  OSGdictOpen:far
+OSGdictOpen     proc    far
+endif
+        uses    bx, cx, dx, ds
+        .enter
+
+        call    FilePushDir
+
+        ; Try SP_TOP / USERDATA / DICTS, using two path changes so there are
+        ; no C/ASM backslash-string interpretation issues.
+        mov     bx, SP_TOP
+        segmov  ds, cs
+        mov     dx, offset osgUserDataDir
+        call    FileSetCurrentPath
+        jc      tryPublic
+
+        clr     bx
+        segmov  ds, cs
+        mov     dx, offset osgDictsDir
+        call    FileSetCurrentPath
+        jc      tryPublic
+
+        call    OSGTryOpenDictCurrentDir
+        tst     ax
+        jnz     done
+
+tryPublic:
+        mov     bx, SP_PUBLIC_DATA
+        segmov  ds, cs
+        mov     dx, offset osgDictsDir
+        call    FileSetCurrentPath
+        jc      tryPrivate
+
+        call    OSGTryOpenDictCurrentDir
+        tst     ax
+        jnz     done
+
+tryPrivate:
+        mov     bx, SP_PRIVATE_DATA
+        segmov  ds, cs
+        mov     dx, offset osgDictsDir
+        call    FileSetCurrentPath
+        jc      fail
+
+        call    OSGTryOpenDictCurrentDir
+        tst     ax
+        jnz     done
+
+fail:
+        clr     ax
+
+done:
+        call    FilePopDir
+        .leave
+        ret
+ifdef __BORLANDC__
+OSGDICTOPEN     endp
+else
+OSGdictOpen     endp
+endif
+
+OSGTryOpenDictCurrentDir        proc    near
+        uses    bx, dx, ds
+        .enter
+
+        segmov  ds, cs
+        mov     dx, offset osgDictFileName
+        mov     ax, FILE_ACCESS_R or FILE_DENY_W
+        call    FileOpen
+        jnc     opened
+
+        segmov  ds, cs
+        mov     dx, offset osgDictFileName
+        mov     ax, FILE_ACCESS_R or FILE_DENY_NONE
+        call    FileOpen
+        jc      error
+
+opened:
+        xchg    bx, ax
+        mov     ax, handle 0
+        call    HandleModifyOwner
+        xchg    bx, ax
+        jmp     exit
+
+error:
+        clr     ax
+
+exit:
+        .leave
+        ret
+OSGTryOpenDictCurrentDir        endp
+
+SBCS <osgUserDataDir    char    "USERDATA",0>
+SBCS <osgDictsDir       char    "DICTS",0>
+SBCS <osgDictFileName   char    "EN_US.DAT",0>
+DBCS <osgUserDataDir    wchar   "USERDATA",0>
+DBCS <osgDictsDir       wchar   "DICTS",0>
+DBCS <osgDictFileName   wchar   "EN_US.DAT",0>
+
 
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		GEOSopen
@@ -874,8 +997,8 @@ REVISION HISTORY:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
 	textCategory	char	"text",0
 	dictionaryKey	char	"dictionary",0
-SBCS <	dictName	char	"IENC9123.DAT",0			>
-DBCS <	dictName	wchar	"IENC9123.DAT",0			>
+SBCS <	dictName	char	"EN_US.DAT",0			>
+DBCS <	dictName	wchar	"EN_US.DAT",0			>
 SBCS <GetDictionaryName	proc	far	uses	cx, dx, bp, ds, di, si	>
 DBCS <GetDictionaryName	proc	far	uses	ax, cx, dx, bp, ds, di, si>
 DBCS <dbcsFlag	local	word	push	ax				>

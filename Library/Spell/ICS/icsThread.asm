@@ -243,7 +243,7 @@ SpellThreadInitICBuff	method	SpellThreadClass,
 					MSG_SPELL_THREAD_INIT_IC_BUFF
 	.enter
 	push	cx
-	;call	ICGEOSplInitICBuff	;Returns error code in AX	
+	call	ICGEOSplInitICBuff	;Returns error code in AX	
 	.leave
 	ret
 SpellThreadInitICBuff	endm
@@ -275,7 +275,7 @@ SpellThreadExitICBuff	method	SpellThreadClass,
 					MSG_SPELL_THREAD_EXIT_IC_BUFF
 	push	cx
 	push	cx
-	;call	ICGEOSplExitICBuff
+	call	ICGEOSplExitICBuff
 	pop	bx
 	call	MemFree			;Free up the IC buff
 
@@ -391,7 +391,7 @@ REVISION HISTORY:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
 SpellThreadSpell	method	SpellThreadClass,
 					MSG_SPELL_THREAD_SPELL
-	;CallCSpell	ICGEOSpl, ax
+	CallCSpell	ICGEOSpl, ax
 	ret
 SpellThreadSpell	endm
 
@@ -426,7 +426,7 @@ REVISION HISTORY:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
 SpellThreadAddToUserDictionary	method	SpellThreadClass,
 					MSG_SPELL_THREAD_ADD_TO_USER_DICTIONARY
-	;CallCSpell	IPGEOAddUser, axdx
+	CallCSpell	IPGEOAddUser, axdx
 	ret
 SpellThreadAddToUserDictionary	endm
 

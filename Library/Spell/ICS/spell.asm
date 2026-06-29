@@ -407,86 +407,61 @@ REVISION HISTORY:
 	atw	2/ 5/91		Initial version
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
-ICGetAlternate	proc	far	uses	ax, bx, cx, dx, bp, di, si, es, ds
-if DBCS_PCGEOS
-sbcsBuf		local	SPELL_MAX_WORD_LENGTH dup (char)
-fullWidthFlag	local	word
+ICGetAlternate	proc	far	uses	ax, bx, cx, si, di, ds
 	.enter
-if	FULL_EXECUTE_IN_PLACE
-	;
-	; Make sure the fptr passed in is valid
-	;
-EC <		pushdw	bxsi						>
-EC <		mov	bx, ds	 					>
-EC <		call	ECAssertValidFarPointerXIP			>
-EC <		movdw	bxsi, esdi					>
-EC <		call	ECAssertValidFarPointerXIP			>
-EC <		popdw	bxsi						>
-endif
-	pushdw	esdi
-	push	bp
-	push	ss
-	lea	di, sbcsBuf
-	push	di
-	pushdw	dssi
-	push	bx
-	push	ax
-	mov	ax, {wchar} ds:[si]
-	mov	fullWidthFlag, ax
-;if ICGEOGetAlternate actually used the source string, we'd need to convert
-;it to SBCS from DBCS (see CallCSpell) - brianc 4/25/94
-	;call	ICGEOGetAlternate
-	pop	bp
-	popdw	esdi
-	segmov	ds, ss
-	lea	si, sbcsBuf
-	clr	ah
-	push	di
+
+;	OpenSpellGEOS Step 2 suggestions.
+;	The Watcom C backend stores null-terminated SBCS alternatives in
+;	ICB_altList and stores offsets into ICB_correctPtr.  Return the requested
+;	alternate directly from the ICBuff.  This avoids the old commented-out
+;	ICGEOGetAlternate stack path, which corrupts the stack when the call is
+;	not actually made.
+;
+;	Pass:
+;		es:di = destination buffer
+;		bx    = ICBuff handle
+;		ax    = alternate index
+
+if DBCS_PCGEOS
+	; Step 2 is SBCS only for now.
+	mov	{wchar} es:[di], 0
+else
+	; The caller passes ES:DI pointing at a stack buffer and then uses the
+	; same ES:DI as the ReplaceItemMonikerFrame source after we return.
+	; Preserve DI via the uses list above, and pre-clear the destination so
+	; failure paths produce an empty string without changing the pointer.
+	mov	{char} es:[di], 0
+	mov	cx, ax			; cx = requested alternate index
+	call	MemLock			; ax = ICBuff segment
+	tst	ax
+	jz	noAltNoUnlock
+	mov	ds, ax
+
+	cmp	cx, ds:[ICB_numAlts]
+	jae	noAlt
+	cmp	cx, ICMAXALT
+	jae	noAlt
+
+	mov	si, cx
+	shl	si, 1
+	mov	si, ds:[ICB_correctPtr][si]
+	cmp	si, ICCORMAX
+	jae	noAlt
+	add	si, offset ICB_altList
 copyLoop:
 	lodsb
-	stosw
+	stosb
 	tst	al
 	jnz	copyLoop
-	pop	di
-	;
-	; convert alternate to full-width, if needed
-	;	es:di = dest buffer (DBCS'ed SBCS)
-	;
-	mov	ax, fullWidthFlag
-	cmp	ax, C_FULLWIDTH_EXCLAMATION_MARK
-	jb	notFullWidth
-	cmp	ax, C_FULLWIDTH_SPACING_TILDE
-	ja	notFullWidth
-	segmov	ds, es				; ds:si = es:di
-	mov	si, di
-fullWidthLoop:
-	lodsw
-	tst	ax
-	jz	notFullWidth
-	add	ax, (C_FULLWIDTH_EXCLAMATION_MARK-C_EXCLAMATION_MARK)
-	stosw
-	jmp	fullWidthLoop
+	jmp	unlock
 
-notFullWidth:
-else
-	.enter
-if	FULL_EXECUTE_IN_PLACE
-	;
-	; Make sure the fptr passed in is valid
-	;
-EC <		pushdw	bxsi						>
-EC <		mov	bx, ds	 					>
-EC <		call	ECAssertValidFarPointerXIP			>
-EC <		movdw	bxsi, esdi					>
-EC <		call	ECAssertValidFarPointerXIP			>
-EC <		popdw	bxsi						>
+noAlt:
+	mov	{char} es:[di], 0
+unlock:
+	call	MemUnlock
+noAltNoUnlock:
 endif
-	pushdw	esdi
-	pushdw	dssi
-	push	bx
-	push	ax
-	;call	ICGEOGetAlternate
-endif
+
 	.leave
 	ret
 ICGetAlternate	endp
