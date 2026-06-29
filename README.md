@@ -1,3 +1,6 @@
+# OpenSpellGEOS
+This branch contains an initial prototype of a spell check engine and open source US English dictionary (contained in dicts.zip) for FreeGEOS Ensemble. The US-English dictionary is based on [Wordlist](https://github.com/en-wl/wordlist) - [license terms](https://github.com/en-wl/wordlist?tab=License-1-ov-file)
+
 # PC/GEOS
 This repository is the official place to hold all the source codes around the PC/GEOS graphical user
 interface and its sophisticated applications. It is the source to build SDK and release version of PC/GEOS.
