@@ -1,0 +1,27 @@
+{
+  "scope": "Diagnostic-only Loader32 update. Not a fix for the unobserved underlying guest failure.",
+  "source_commit": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "compiler": "User-supplied OpenWatcom 2020-12-01 snapshot",
+  "source_zip_sha256": "c4d8246db68beb8a39231a798fe604d448d2816861e21d6ea38c251fbe1caba0",
+  "compiler_archive_sha256": "25ce668825a6e145e18d4347675912b98cb0f202d100bdc1a436f6fe69515f40",
+  "baseline_loader_sha256": "4d64a2f60e9529c6d81c1f82587f487f8424d6909d1236b59e3fab6b2ab06f09",
+  "baseline_rebuild_identical_to_shipped_loader": true,
+  "diagnostic_loader_sha256": "0565bb60643e06f945e4f4286f281de7c58aefab4347db92349509efc6ef47fd",
+  "diagnostic_loader_bytes": 44032,
+  "diagnostic_symbols_sha256": "526c7d2757be2defa3c596542723617eb1b8bbe596a219a2e612929f85c6ad06",
+  "guest_boot_tested": false,
+  "underlying_failure_identified": false,
+  "changes": [
+    {
+      "path": "Loader32/main.asm",
+      "original_sha256": "a7dff390f4d9fc729e239f2d08caa4f6a6d7113a039c8a8c745aff8bfa0ad1f0",
+      "updated_sha256": "fd385fa9c1844e2b5fd5a406e7f5663cc18a1e38add6496b68f02d7a8f5b806e"
+    },
+    {
+      "path": "Loader32/strings.asm",
+      "original_sha256": "a5815bcc0b6df714b0fa5e3cca465c08797f29db4a49079e7ff708b67841844b",
+      "updated_sha256": "db80c68fdee7b9b363c9701cb9844e0f1f7e42b97a10e47a06f3f8855255de4e"
+    }
+  ],
+  "second_clean_loader_object_rebuild_identical": true
+}

@@ -1,0 +1,40 @@
+test_actual_product_after_all_previous_updates (__main__.ActualProductTests.test_actual_product_after_all_previous_updates) ... ok
+test_conditional_preserves_nonminimal_source (__main__.BinaryTests.test_conditional_preserves_nonminimal_source) ... ok
+test_fixed_source_and_matching_symbols (__main__.BinaryTests.test_fixed_source_and_matching_symbols) ... ok
+test_new_sampling_entry_only_calls_four_calculators (__main__.BinaryTests.test_new_sampling_entry_only_calls_four_calculators) ... ok
+test_old_divisor_read_and_div_instruction (__main__.BinaryTests.test_old_divisor_read_and_div_instruction) ... ok
+test_only_sampling_resource_changes (__main__.BinaryTests.test_only_sampling_resource_changes) ... ok
+test_original_and_fixed_hashes (__main__.BinaryTests.test_original_and_fixed_hashes) ... ok
+test_runtime_contains_only_perf_no_fonts (__main__.BinaryTests.test_runtime_contains_only_perf_no_fonts) ... ok
+test_unchanged_data_and_ui_state_layout (__main__.BinaryTests.test_unchanged_data_and_ui_state_layout) ... ok
+test_unchanged_imports_and_resource_numbers (__main__.BinaryTests.test_unchanged_imports_and_resource_numbers) ... ok
+test_fixed_120_changing_samples (__main__.NativeTests.test_fixed_120_changing_samples) ... ok
+test_fixed_busy_cpu (__main__.NativeTests.test_fixed_busy_cpu) ... ok
+test_fixed_completely_idle (__main__.NativeTests.test_fixed_completely_idle) ... ok
+test_fixed_does_not_touch_unsupported_state (__main__.NativeTests.test_fixed_does_not_touch_unsupported_state) ... ok
+test_fixed_half_idle (__main__.NativeTests.test_fixed_half_idle) ... ok
+test_fixed_handles_remain_uninitialized_without_a_division (__main__.NativeTests.test_fixed_handles_remain_uninitialized_without_a_division) ... ok
+test_fixed_low_speed_pure_counter (__main__.NativeTests.test_fixed_low_speed_pure_counter) ... ok
+test_fixed_upper_safe_calibration (__main__.NativeTests.test_fixed_upper_safe_calibration) ... ok
+test_fixed_zero_calibration_and_zero_count (__main__.NativeTests.test_fixed_zero_calibration_and_zero_count) ... ok
+test_original_fails_even_with_no_idle_time (__main__.NativeTests.test_original_fails_even_with_no_idle_time) ... ok
+test_original_first_sample_divides_by_zero (__main__.NativeTests.test_original_first_sample_divides_by_zero) ... ok
+test_original_pure_count_also_reaches_bad_handle_division (__main__.NativeTests.test_original_pure_count_also_reaches_bad_handle_division) ... ok
+test_already_original_restore (__main__.UpdaterTests.test_already_original_restore) ... ok
+test_apply_only_perf (__main__.UpdaterTests.test_apply_only_perf) ... ok
+test_case_collision_rejected (__main__.UpdaterTests.test_case_collision_rejected) ... ok
+test_case_insensitive_paths (__main__.UpdaterTests.test_case_insensitive_paths) ... ok
+test_damaged_backup_restore_rejected (__main__.UpdaterTests.test_damaged_backup_restore_rejected) ... ok
+test_existing_backup_preserved (__main__.UpdaterTests.test_existing_backup_preserved) ... ok
+test_idempotent (__main__.UpdaterTests.test_idempotent) ... ok
+test_missing_entrypoint_rejected (__main__.UpdaterTests.test_missing_entrypoint_rejected) ... ok
+test_restore_only_perf (__main__.UpdaterTests.test_restore_only_perf) ... ok
+test_symlink_directory_rejected (__main__.UpdaterTests.test_symlink_directory_rejected) ... ok
+test_symlink_program_rejected (__main__.UpdaterTests.test_symlink_program_rejected) ... ok
+test_tampered_replacement_not_installed (__main__.UpdaterTests.test_tampered_replacement_not_installed) ... ok
+test_unknown_program_preserved (__main__.UpdaterTests.test_unknown_program_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 0.873s
+
+OK

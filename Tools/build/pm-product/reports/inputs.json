@@ -1,0 +1,31 @@
+{
+  "protected_branch": {
+    "filename": "pcgeos-665-protected-mode-2026(1).zip",
+    "sha256": "c4d8246db68beb8a39231a798fe604d448d2816861e21d6ea38c251fbe1caba0",
+    "bytes": 112284491,
+    "archive_comment": "30df506fc64720fd82e528acbcb192adbaa48fce"
+  },
+  "master": {
+    "filename": "pcgeos-master(1).zip",
+    "sha256": "49fbe9e1e55097266c4aceddeac23b25c257470fa9b5b48906dbe7ce83835d5c",
+    "bytes": 110476588,
+    "archive_comment": "6d2c31a5faff2fc60109836f9b249004dd51e928"
+  },
+  "openwatcom": {
+    "filename": "ow-snapshot(1).tar.gz",
+    "sha256": "25ce668825a6e145e18d4347675912b98cb0f202d100bdc1a436f6fe69515f40",
+    "bytes": 213027573
+  },
+  "compiler_binaries": {
+    "binl64/wmake": "9f160e02274a564024d73e4777aeaaaadbcc18a3c5985f07113721f488353a7a",
+    "binl64/wcc386": "6f1ade73cbb23197be36fa942ee7f6e567a8729fd87e557973cc2f65e8601ab9",
+    "binl64/wlink": "c6d3be138eb127da53af5a0c1738155b69063f0a6b3cd6e204e51684b7ec5e11",
+    "binl64/wcc": "c9c865ed7f8ccfae1da684762781b189d713ab74cb1d63a4d5b456fedfb104da",
+    "binl64/wasm": "6b0f4b624239c75683f4ec19ea78d7b48440ba15503c20362e7e66f9beb12f12",
+    "binl64/wlib": "58113e5bb56fa8518bd66e6c1be3a48434ebaeafb9980c755cda5a03635d3db6"
+  },
+  "runtime_inputs": {
+    "FontData/Berkeley.fnt": "5e06a6774f2a9fb7400e8f22a857b8a4a411ce0b638d82ef24deda15360fe2ac",
+    "Tools/build/product/bbxensem/Template/HDPMI16.EXE": "1475eaa484daa9b4551451dbb76ca7cd3e31463d4b3bbbf0e7909a6b7a486dfb"
+  }
+}

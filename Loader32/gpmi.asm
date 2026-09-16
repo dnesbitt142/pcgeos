@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-RESIZE] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-RESIZE] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-RESIZE] Use a Linux-compatible include path; replace the faulty 64 KiB copy loop with DPMI 0503h resize and descriptor updates.
+; PM-BRINGUP [PM-RESIZE] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @----------------------------------------------------------------------
 
   Copyright (c) 1999-2000 Breadbox Company Company -- All Rights Reserved
@@ -57,7 +61,8 @@ DESCRIPTION:
 ------------------------------------------------------------------------------@
 
 include gpmi.def
-include Internal\gpmiInt.def
+; PM-BRINGUP [PM-RESIZE] CHANGED include separator for Linux; same upstream definitions.
+include Internal/gpmiInt.def
 
 .386p
 ; -------------------------------------------------------------------------
@@ -540,346 +545,91 @@ DESTROYED:	nothing
 PSEUDO CODE/STRATEGY:
 	Find the selector in the GPMISelector table
 	Check to see that it is allocated
-	Get old block size from stored limit in structure
-	Allocate new block with requested size
-	Copy data from old block to new block (min of old/new size)
-	Free old block
-	Update selector to point to new block
-	Store new handle in table
+	Use DPMI 0503h to resize without a 16-bit copy-count overflow
+	Record the replacement handle and retarget the existing descriptor
 KNOWN BUGS/SIDE EFFECTS/IDEAS:
 		
 REVISION HISTORY:
 	Name	Date		Description
 	----	----		-----------
 	LES	12/16/99	Initial version
-	XXX	XX/XX/XX	Rewritten to use alloc/copy/free (16-bit)
+	PM-Perf	09/14/26	Use the native DPMI resize service
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
+; PM-BRINGUP [PM-RESIZE] REPLACED resize implementation: no manual 16-bit copy loop; native DPMI resize preserves contents.
 GPMIResizeBlock	proc far
 	uses	ax, bx, cx, si, di, ds, es
 selector	local	word		push bx
 newSize		local	dword		push cx, dx
 structOfs	local	word
-oldHandle	local	dword
-oldBase		local	dword
-oldSize		local	dword
-newHandle	local	dword
 newBase		local	dword
-copySize	local	dword
-tempSel		local	word
 	.enter
 
-	; Get data selector and find structure
+	; DPMI 0.9 function 0503h preserves the old block on allocation
+	; failure, copies its contents, and returns the (possibly changed)
+	; linear address AND memory handle.  Do not implement this with a
+	; 16-bit CX copy loop: CX=0 is not a 65536-byte REP count.
 	IGPMIGetDataSelector
 	mov	si, bx
 	SelectorToOffset si
 	mov	structOfs, si
-
-	; Check if allocated
 	test	[si].GPMIS_flags, mask GPMISF_allocated
-	jz	failed
+	jz	badHandle
+	cmp	[si].GPMIS_type, GPMI_SELECTOR_TYPE_MEMORY
+	jne	badHandle
+	mov	ax, newSize.high
+	or	ax, newSize.low
+	jz	badSize
 
-	; Save old handle
-	mov	ax, [si].GPMIS_data1
-	mov	oldHandle.high, ax
-	mov	ax, [si].GPMIS_data2
-	mov	oldHandle.low, ax
-
-	; Get old base and limit using DPMI Get Descriptor (000Bh)
-	; Descriptor format (8 bytes):
-	;   Byte 0-1: Limit bits 0-15
-	;   Byte 2-3: Base bits 0-15
-	;   Byte 4:   Base bits 16-23
-	;   Byte 5:   Access rights
-	;   Byte 6:   Flags (bits 4-7) + Limit bits 16-19 (bits 0-3)
-	;   Byte 7:   Base bits 24-31
-	mov	bx, selector
-	sub	sp, 8
-	mov	di, sp
-	push	ss
-	pop	es
-	mov	ax, DPMI_FUNC_GET_DESCRIPTOR
-	int	31h
-	jc	failedPopDesc
-
-	; Extract base address
-	mov	al, es:[di+2]		; base bits 0-7
-	mov	ah, es:[di+3]		; base bits 8-15
-	mov	oldBase.low, ax
-	mov	al, es:[di+4]		; base bits 16-23
-	mov	ah, es:[di+7]		; base bits 24-31
-	mov	oldBase.high, ax
-
-	; Extract limit
-	mov	ax, es:[di]		; limit bits 0-15
-	mov	oldSize.low, ax
-	mov	al, es:[di+6]
-	and	ax, 000Fh		; limit bits 16-19
-	mov	oldSize.high, ax
-
-	; Check granularity (byte 6, bit 7)
-	test	byte ptr es:[di+6], 80h
-	jz	noGranularity
-	
-	; Page granularity: size = (limit + 1) * 4096
-	add	sp, 8
-	mov	ax, oldSize.low
-	mov	dx, oldSize.high
-	add	ax, 1
-	adc	dx, 0
-	; Shift left by 12 (multiply by 4096)
-	mov	cx, 12
-granShift:
-	shl	ax, 1
-	rcl	dx, 1
-	loop	granShift
-	mov	oldSize.low, ax
-	mov	oldSize.high, dx
-	jmp	oldSizeDone
-
-noGranularity:
-	add	sp, 8
-	; Byte granularity: size = limit + 1
-	add	oldSize.low, 1
-	adc	oldSize.high, 0
-
-oldSizeDone:
-
-	; Allocate new block
+	; Above 1 MiB the limit is page-granular. Reject an unrepresentable
+	; size BEFORE resizing, rather than stranding a successfully moved
+	; allocation at an invalid descriptor limit.
+	cmp	newSize.high, 10h
+	jb	resize
+	test	newSize.low, 0fffh
+	jnz	badSize
+resize:
+	mov	di, [si].GPMIS_data2
+	mov	si, [si].GPMIS_data1
 	mov	bx, newSize.high
 	mov	cx, newSize.low
-	mov	ax, DPMI_FUNC_ALLOCATE_MEMORY_BLOCK
+	mov	ax, DPMI_FUNC_RESIZE_MEMORY_BLOCK
 	int	31h
 	jc	failed
-	; BX:CX = linear address, SI:DI = handle
 	mov	newBase.high, bx
 	mov	newBase.low, cx
-	mov	newHandle.high, si
-	mov	newHandle.low, di
 
-	; Calculate copy size = min(oldSize, newSize)
-	mov	ax, oldSize.low
-	mov	copySize.low, ax
-	mov	ax, oldSize.high
-	mov	copySize.high, ax
-	
-	mov	ax, oldSize.high
-	cmp	ax, newSize.high
-	ja	copyUseOld
-	jb	copyUseNew
-	mov	ax, oldSize.low
-	cmp	ax, newSize.low
-	jbe	copyUseOld
-copyUseNew:
-	mov	ax, newSize.low
-	mov	copySize.low, ax
-	mov	ax, newSize.high
-	mov	copySize.high, ax
-copyUseOld:
-
-	; Allocate temp descriptor for destination
-	mov	ax, 0000h		; DPMI: Allocate LDT Descriptors
-	mov	cx, 1
-	int	31h
-	jc	failedFreeNewBlock
-	mov	tempSel, ax
-	mov	bx, ax
-
-	; Set temp selector base to new block
+	; The old handle is invalid after success. Record its replacement
+	; immediately, so cleanup never attempts to free the stale handle.
+	mov	bx, structOfs
+	mov	[bx].GPMIS_data1, si
+	mov	[bx].GPMIS_data2, di
+	mov	bx, selector
 	mov	cx, newBase.high
 	mov	dx, newBase.low
 	mov	ax, DPMI_FUNC_SET_DESCRIPTOR_BASE
 	int	31h
-	jc	failedFreeTemp
-
-	; Set temp selector limit to newSize - 1
+	jc	failed
 	mov	cx, newSize.high
 	mov	dx, newSize.low
 	sub	dx, 1
 	sbb	cx, 0
 	mov	ax, DPMI_FUNC_SET_DESCRIPTOR_LIMIT
 	int	31h
-	jc	failedFreeTemp
-
-	; Copy data: DS:SI = source (old), ES:DI = dest (new)
-	; Use 64KB chunks for 16-bit compatibility
-	push	ds
-	
-	mov	ds, selector		; source selector (old block)
-	mov	es, tempSel		; dest selector (new block)
-	
-	xor	si, si			; source offset
-	xor	di, di			; dest offset
-
-copyLoop:
-	; Check if done
-	mov	ax, copySize.low
-	or	ax, copySize.high
-	jz	copyDone
-
-	; Determine chunk size (max 64KB or remaining)
-	mov	cx, copySize.low
-	tst	copySize.high
-	jnz	useFullChunk
-	; High word is 0, use remaining count
-	jmp	doChunkCopy
-useFullChunk:
-	; More than 64KB remaining, but we must stay within segment
-	; Calculate remaining space in current segment
-	mov	ax, si
-	neg	ax			; AX = bytes until SI wraps (0 means 64KB)
-	jnz	checkDestWrap
-	mov	ax, 0FFFFh		; use full 64KB-1
-	inc	ax			; AX = 0, meaning 64KB (handle specially)
-checkDestWrap:
-	; Also check DI
-	mov	cx, di
-	neg	cx			; CX = bytes until DI wraps
-	jnz	compareWraps
-	mov	cx, 0FFFFh
-	inc	cx
-compareWraps:
-	; Use minimum of AX and CX
-	cmp	ax, cx
-	jbe	useSrcLimit
-	mov	ax, cx
-useSrcLimit:
-	mov	cx, ax
-	; CX = max bytes we can copy in this iteration
-	; But also limit to copySize if smaller
-	cmp	copySize.high, 0
-	jne	doChunkCopy		; high != 0, so copySize > 64KB, use CX
-	cmp	cx, copySize.low
-	jbe	doChunkCopy
-	mov	cx, copySize.low
-
-doChunkCopy:
-	; CX = bytes to copy this iteration
-	jcxz	advanceSegments		; handle 64KB case
-	
-	; Update copySize
-	sub	copySize.low, cx
-	sbb	copySize.high, 0
-	
-	; Copy CX bytes
-	shr	cx, 1			; words
-	rep	movsw
-	jnc	noExtraByte
-	movsb
-noExtraByte:
-	jmp	copyLoop
-
-advanceSegments:
-	; We need to advance base addresses by 64KB
-	; This happens when SI or DI wrapped to 0
-	; For simplicity, copy word by word with wrap handling
-	; Or just update descriptor bases
-	
-	; Update source base
-	mov	bx, selector
-	mov	ax, 0006h		; DPMI: Get Segment Base Address
-	int	31h
-	add	dx, 10000h		; add 64KB
-	adc	cx, 0
-	mov	ax, 0007h		; DPMI: Set Segment Base Address
-	int	31h
-	
-	; Update dest base
-	mov	bx, tempSel
-	mov	ax, 0006h		; DPMI: Get Segment Base Address
-	int	31h
-	add	dx, 10000h
-	adc	cx, 0
-	mov	ax, 0007h		; DPMI: Set Segment Base Address
-	int	31h
-	
-	; Subtract 64KB from copySize
-	sub	copySize.low, 0
-	sbb	copySize.high, 1
-	
-	xor	si, si
-	xor	di, di
-	jmp	copyLoop
-
-copyDone:
-	pop	ds
-
-	; Free temp selector
-	mov	bx, tempSel
-	mov	ax, DPMI_FUNC_FREE_DESCRIPTOR
-	int	31h
-
-	; Restore original selector base before freeing old block
-	mov	bx, selector
-	mov	cx, oldBase.high
-	mov	dx, oldBase.low
-	mov	ax, DPMI_FUNC_SET_DESCRIPTOR_BASE
-	int	31h
-
-	; Free old memory block
-	mov	si, oldHandle.high
-	mov	di, oldHandle.low
-	mov	ax, DPMI_FUNC_FREE_MEMORY_BLOCK
-	int	31h
-	; Continue even if this fails
-
-	; Update selector to point to new block
-	mov	bx, selector
-	mov	cx, newBase.high
-	mov	dx, newBase.low
-	mov	ax, DPMI_FUNC_SET_DESCRIPTOR_BASE
-	int	31h
-	jc	failedInconsistent
-
-	; Set new limit
-	mov	cx, newSize.high
+	jc	failed
 	mov	dx, newSize.low
-	sub	dx, 1
-	sbb	cx, 0
-	mov	ax, DPMI_FUNC_SET_DESCRIPTOR_LIMIT
-	int	31h
-	jc	failedInconsistent
-
-	; Store new handle in structure
-	mov	si, structOfs
-	mov	ax, newHandle.high
-	mov	[si].GPMIS_data1, ax
-	mov	ax, newHandle.low
-	mov	[si].GPMIS_data2, ax
-
 	clc
-done:
-	.leave
-	ret
-
-failedPopDesc:
-	add	sp, 8
+	jmp	done
+badHandle:
+	mov	ax, 8023h
 	jmp	failed
-
-failedFreeTemp:
-	mov	bx, tempSel
-	push	ax
-	mov	ax, DPMI_FUNC_FREE_DESCRIPTOR
-	int	31h
-	pop	ax
-
-failedFreeNewBlock:
-	; Free the newly allocated block
-	push	ax
-	mov	si, newHandle.high
-	mov	di, newHandle.low
-	mov	ax, DPMI_FUNC_FREE_MEMORY_BLOCK
-	int	31h
-	pop	ax
-	jmp	failed
-
-failedInconsistent:
-	; Old block freed, new block exists but selector is wrong
-	; Not much we can do here
-
+badSize:
+	mov	ax, 8021h
 failed:
 	mov	dx, ax
 	stc
-	jmp	done
+done:
+	.leave
+	ret
 GPMIResizeBlock	endp
 
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

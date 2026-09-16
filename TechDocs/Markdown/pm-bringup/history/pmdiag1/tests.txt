@@ -1,0 +1,185 @@
+test_dpmi_failure_without_writable_alias (__main__.NativeTests.test_dpmi_failure_without_writable_alias) ... ok
+test_four_hex_digits (__main__.NativeTests.test_four_hex_digits) ... ok
+test_gpf_before_writable_alias (__main__.NativeTests.test_gpf_before_writable_alias) ... ok
+test_message_0000 (__main__.NativeTests.test_message_0000) ... ok
+test_message_0001 (__main__.NativeTests.test_message_0001) ... ok
+test_message_0002 (__main__.NativeTests.test_message_0002) ... ok
+test_message_0003 (__main__.NativeTests.test_message_0003) ... ok
+test_message_0004 (__main__.NativeTests.test_message_0004) ... ok
+test_message_0005 (__main__.NativeTests.test_message_0005) ... ok
+test_message_0006 (__main__.NativeTests.test_message_0006) ... ok
+test_message_0007 (__main__.NativeTests.test_message_0007) ... ok
+test_message_0008 (__main__.NativeTests.test_message_0008) ... ok
+test_message_0009 (__main__.NativeTests.test_message_0009) ... ok
+test_message_000A (__main__.NativeTests.test_message_000A) ... ok
+test_message_000B (__main__.NativeTests.test_message_000B) ... ok
+test_message_000C (__main__.NativeTests.test_message_000C) ... ok
+test_message_000D (__main__.NativeTests.test_message_000D) ... ok
+test_original_misreports_ini_failure (__main__.NativeTests.test_original_misreports_ini_failure) ... ok
+test_original_misreports_protection_fault (__main__.NativeTests.test_original_misreports_protection_fault) ... ok
+test_stored_fault_report (__main__.NativeTests.test_stored_fault_report) ... ok
+test_synthetic_dpmi_frame_capture (__main__.NativeTests.test_synthetic_dpmi_frame_capture) ... ok
+test_unknown_codes_are_bounded (__main__.NativeTests.test_unknown_codes_are_bounded) ... ok
+test_diagnostic_binary_hash (__main__.PackageTests.test_diagnostic_binary_hash) ... ok
+test_full_prepared_install_preserved (__main__.PackageTests.test_full_prepared_install_preserved) ... ok
+test_guest_status_is_not_claimed (__main__.PackageTests.test_guest_status_is_not_claimed) ... ok
+test_mz_file_and_relocations (__main__.PackageTests.test_mz_file_and_relocations) ... ok
+test_original_is_verified_baseline (__main__.PackageTests.test_original_is_verified_baseline) ... ok
+test_repeat_assembly_is_identical (__main__.PackageTests.test_repeat_assembly_is_identical) ... ok
+test_source_guards_match_upload (__main__.PackageTests.test_source_guards_match_upload) ... ok
+test_absent_loader_rejected (__main__.UpdaterTests.test_absent_loader_rejected) ... ok
+test_case_insensitive_loader (__main__.UpdaterTests.test_case_insensitive_loader) ... ok
+test_existing_backup_not_overwritten (__main__.UpdaterTests.test_existing_backup_not_overwritten) ... ok
+test_repeated_update_is_noop (__main__.UpdaterTests.test_repeated_update_is_noop) ... ok
+test_restore_original_is_noop (__main__.UpdaterTests.test_restore_original_is_noop) ... ok
+test_restore_preserves_configuration (__main__.UpdaterTests.test_restore_preserves_configuration) ... ok
+test_symlink_loader_rejected (__main__.UpdaterTests.test_symlink_loader_rejected) ... ok
+test_tampered_restore_backup_rejected (__main__.UpdaterTests.test_tampered_restore_backup_rejected) ... ok
+test_unknown_loader_rejected (__main__.UpdaterTests.test_unknown_loader_rejected) ... ok
+test_update_preserves_configuration_and_backup (__main__.UpdaterTests.test_update_preserves_configuration_and_backup) ... ok
+
+----------------------------------------------------------------------
+Ran 39 tests in 0.839s
+
+OK
+
+=== Focused native CPU diagnostics (injected cases; NOT GEOS boot) ===
+baseline=False code=0x000B stage=0x0000 mode='error-noalias'
+
+System Error: GEOS requires DPMI
+PMDIAG1 error=0x000B stage=0x0000
+
+baseline=False code=0x0008 stage=0x0000 mode=None
+
+System Error: not enough memory for GEOS loader/kernel startup
+PMDIAG1 error=0x0008 stage=0x0000
+
+baseline=False code=0x0008 stage=0x9ABC mode=None
+
+System Error: not enough memory for GEOS loader/kernel startup
+PMDIAG1 error=0x0008 stage=0x9ABC
+
+baseline=False code=0x0008 stage=0xFFFF mode=None
+
+System Error: not enough memory for GEOS loader/kernel startup
+PMDIAG1 error=0x0008 stage=0xFFFF
+
+baseline=False code=0x0000 stage=0x0000 mode='gpf-noalias'
+
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x0000
+
+baseline=False code=0x0000 stage=0x000F mode=None
+
+System Error: System Error: 
+PMDIAG1 error=0x0000 stage=0x000F
+
+baseline=False code=0x0001 stage=0x000F mode=None
+
+System Error: cannot locate geos.ini or kernel geos.geo
+PMDIAG1 error=0x0001 stage=0x000F
+
+baseline=False code=0x0002 stage=0x000F mode=None
+
+System Error: cannot load strings file (geos.str)
+PMDIAG1 error=0x0002 stage=0x000F
+
+baseline=False code=0x0003 stage=0x000F mode=None
+
+System Error: cannot open system configuration file (geos.ini)
+PMDIAG1 error=0x0003 stage=0x000F
+
+baseline=False code=0x0004 stage=0x000F mode=None
+
+System Error: cannot read system configuration file (geos.ini)
+PMDIAG1 error=0x0004 stage=0x000F
+
+baseline=False code=0x0005 stage=0x000F mode=None
+
+System Error: system configuration file (geos.ini) is corrupt
+PMDIAG1 error=0x0005 stage=0x000F
+
+baseline=False code=0x0006 stage=0x000F mode=None
+
+System Error: system configuration file (geos.ini) is too large
+PMDIAG1 error=0x0006 stage=0x000F
+
+baseline=False code=0x0007 stage=0x000F mode=None
+
+System Error: cannot load kernel (SYSTEM\GEOS.GEO)
+PMDIAG1 error=0x0007 stage=0x000F
+
+baseline=False code=0x0008 stage=0x000F mode=None
+
+System Error: not enough memory for GEOS loader/kernel startup
+PMDIAG1 error=0x0008 stage=0x000F
+
+baseline=False code=0x0009 stage=0x000F mode=None
+
+System Error: illegal path specification
+PMDIAG1 error=0x0009 stage=0x000F
+
+baseline=False code=0x000A stage=0x000F mode=None
+
+System Error: invalid /mNNN or /rNNN argument
+PMDIAG1 error=0x000A stage=0x000F
+
+baseline=False code=0x000B stage=0x000F mode=None
+
+System Error: GEOS requires DPMI
+PMDIAG1 error=0x000B stage=0x000F
+
+baseline=False code=0x000C stage=0x000F mode=None
+
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x000F
+
+baseline=False code=0x000D stage=0x000F mode=None
+
+System Error: cannot load XIP kernel with standard loader
+PMDIAG1 error=0x000D stage=0x000F
+
+baseline=True code=0x0003 stage=0x000F mode=None
+
+System Error: cannot load strings file (geos.str)
+
+baseline=True code=0x000C stage=0x000F mode=None
+
+System Error: cannot load strings file (geos.str)
+
+baseline=False code=0x000C stage=0x000F mode=None
+
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x000F
+fault CS:IP=0123:ABCD exception-error=0xFFFC
+
+baseline=False code=0x5678 stage=0x0005 mode='gpf'
+
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x0005
+fault CS:IP=018F:ABCD exception-error=0x012C
+
+baseline=False code=0x5678 stage=0x0005 mode='gpf'
+
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x0005
+fault CS:IP=FFF8:FFFF exception-error=0xFFFC
+
+baseline=False code=0x5678 stage=0x0005 mode='gpf'
+
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x0005
+fault CS:IP=0700:1234 exception-error=0x0000
+
+baseline=False code=0x000E stage=0x000F mode=None
+
+System Error: unrecognized loader error (see numeric code below)
+PMDIAG1 error=0x000E stage=0x000F
+
+baseline=False code=0xFFFF stage=0x000F mode=None
+
+System Error: unrecognized loader error (see numeric code below)
+PMDIAG1 error=0xFFFF stage=0x000F
+
+
+Prepared full-product audit: 675 original files; 674 unchanged; only LOADER.EXE replaced; original saved as LOADER.BAK.

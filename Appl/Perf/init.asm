@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-PERF] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-PERF] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-PERF] Clear unsupported saved-state meters and omit their initialization in the four-meter profile.
+; PM-BRINGUP [PM-PERF] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @----------------------------------------------------------------------
 
 	Copyright (c) GeoWorks 1992 -- All Rights Reserved
@@ -88,6 +92,21 @@ initUIComponents:
 
 	push	ax, cx, dx, bp
 
+; PM-BRINGUP [PM-PERF] ADDED saved-state filter; old full-Perf state must not enable unsupported PM-profile meters.
+ifdef PM_PERF_MINIMAL
+	; Ignore unsupported meters restored from a full-build state file.
+	clr	ds:[graphModes].PSS_heapAllocated
+	clr	ds:[graphModes].PSS_heapFixed
+	clr	ds:[graphModes].PSS_heapFragmentation
+	clr	ds:[graphModes].PSS_swapMemAllocated
+	clr	ds:[graphModes].PSS_swapFileAllocated
+	clr	ds:[graphModes].PSS_swapOut
+	clr	ds:[graphModes].PSS_swapIn
+	clr	ds:[graphModes].PSS_pppIn
+	clr	ds:[graphModes].PSS_pppOut
+	clr	ds:[graphModes].PSS_handlesFree
+endif
+
 	;init LMemBlock for use by code which draws our icon on the fly.
 
 	call	PerfInitLMemBlockForMoniker
@@ -98,15 +117,24 @@ initUIComponents:
 
 	;Initialize Memory Stats
 
+; PM-BRINGUP [PM-PERF] ADDED init guard; keep the matching sampling guard in calc.asm (PM-PERF-KR01).
+ifndef PM_PERF_MINIMAL
 	call	InitMemoryStats
+endif
 
 	;Load the PPP driver
 
+; PM-BRINGUP [PM-PERF] ADDED init guard; keep the matching sampling guard in calc.asm (PM-PERF-KR01).
+ifndef PM_PERF_MINIMAL
 	call	LoadPPPDriver
+endif
 
 	;Initialize Handle Stats
 
+; PM-BRINGUP [PM-PERF] ADDED init guard; keep the matching sampling guard in calc.asm (PM-PERF-KR01).
+ifndef PM_PERF_MINIMAL
 	call	InitHandleStats
+endif
 
 	;determine which colors would be cool
 

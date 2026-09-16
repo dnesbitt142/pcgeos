@@ -1,3 +1,7 @@
+/* PM-BRINGUP [PM-PERF] CHANGED 2026-09-16; ChatGPT-assisted project changes. */
+/* PM-BRINGUP [PM-PERF] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce. */
+/* PM-BRINGUP [PM-PERF] Expose only those four meters in the opt-in UI; the original full UI remains in the other branch. */
+/* PM-BRINGUP [PM-PERF] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained. */
 /*
  * Project:	PC/GEOS
  * Module:	Perf (Performance Meter Application)
@@ -221,6 +225,11 @@ PerfMeterGenInteraction = GenInteraction ignoreDirty {
 }
 
 PerfMeterCheckboxes = GenBooleanGroup ignoreDirty {
+/* PM-BRINGUP [PM-PERF] ADDED four-item UI child list; keep it consistent with perf.asm and calc.asm. */
+#ifdef PM_PERF_MINIMAL
+	children = GraphCPU, GraphLoadAverage, GraphInterrupts,
+		GraphContextSwitches;
+#else
 	children =
 		GraphCPU,
 		GraphLoadAverage,
@@ -236,6 +245,7 @@ PerfMeterCheckboxes = GenBooleanGroup ignoreDirty {
 		GraphPPPIn,
 		GraphPPPOut,
 		GraphHandlesFree;
+#endif
 	applyMsg = MSG_PERF_SET_GRAPH_MODE;
 	destination = "TO_PROCESS";
 	hints = {
@@ -262,6 +272,8 @@ GraphContextSwitches = GenBoolean ignoreDirty {
 	moniker = "Context switches";
 	identifier = "mask STM_CONTEXT_SWITCHES";
 }
+/* PM-BRINGUP [PM-PERF] ADDED guard around unsupported meter controls; ordinary full UI retained when flag is absent. */
+#ifndef PM_PERF_MINIMAL
 GraphHeapAllocated = GenBoolean ignoreDirty {
 	moniker = "Memory Used";
 	identifier = "mask STM_HEAP_ALLOCATED";
@@ -302,6 +314,8 @@ GraphHandlesFree = GenBoolean ignoreDirty {
 	moniker = "Free Handles";
 	identifier = "mask STM_HANDLES_FREE";
 }
+
+#endif
 
 /******************************************************************************
 			Display Options

@@ -1,3 +1,7 @@
+/* PM-BRINGUP [PM-TTF] CHANGED 2026-09-16; ChatGPT-assisted project changes. */
+/* PM-BRINGUP [PM-TTF] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce. */
+/* PM-BRINGUP [PM-TTF] Initialize the existing-family FontInfo pointer before reading outline offsets; fixes the reported MOV ES,BX fault. */
+/* PM-BRINGUP [PM-TTF] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained. */
 /***********************************************************************
  *
  *	Copyright FreeGEOS-Project
@@ -459,11 +463,19 @@ EC(     ECCheckFileHandle( truetypeFile ) );
 	}
         else
         {
+/* PM-BRINGUP [PM-TTF] BEGIN CHANGE: resolve this existing family's chunk before dereferencing the local FontInfo pointer. */
                 FontsAvailEntry*      availEntries = LMemDeref( ConstructOptr(fontInfoBlock, sizeof(LMemBlockHeader)) );
-		OutlineDataEntry*     outlineData = (OutlineDataEntry*) (((byte*)fontInfo) + fontInfo->FI_outlineTab);
-                OutlineDataEntry*     outlineDataEnd = (OutlineDataEntry*) (((byte*)fontInfo) + fontInfo->FI_outlineEnd);
+                OutlineDataEntry*     outlineData;
+                OutlineDataEntry*     outlineDataEnd;
 
+                /* Resolve this family's FontInfo before reading its outlines.
+                 * fontInfo is a local pointer, not retained from a prior call.
+                 */
                 fontInfoChunk = availEntries[availIndex].FAE_infoHandle;
+                fontInfo = LMemDerefHandles( fontInfoBlock, fontInfoChunk );
+                outlineData = (OutlineDataEntry*) (((byte*)fontInfo) + fontInfo->FI_outlineTab);
+                outlineDataEnd = (OutlineDataEntry*) (((byte*)fontInfo) + fontInfo->FI_outlineEnd);
+/* PM-BRINGUP [PM-TTF] END CHANGE: the original style/weight matching loop below is unchanged. */
 		while( outlineData < outlineDataEnd)
 		{
                         if( ( mapTextStyle( &styleName ) == outlineData->ODE_style ) &&

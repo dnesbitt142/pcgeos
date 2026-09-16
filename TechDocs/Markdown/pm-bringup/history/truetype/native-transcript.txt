@@ -1,0 +1,55 @@
+Controlled native branch tests; GEOS calls are intercepted. NOT a DOSBox-X boot.
+
+__main__.NativeTests.test_distinct_style
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+APPEND-PATH CS:IP=0637:048d BX=213d CPU-error=0000 derefs=2 AX=0030 DX=140a
+exit=0
+
+__main__.NativeTests.test_distinct_weight
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+APPEND-PATH CS:IP=0637:048d BX=213d CPU-error=0000 derefs=2 AX=006e DX=0000
+exit=0
+
+__main__.NativeTests.test_duplicate_bold_second_entry
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+DUPLICATE-PATH CS:IP=0637:05a9 BX=213d CPU-error=0008 derefs=2 AX=006e DX=0000
+exit=0
+
+__main__.NativeTests.test_duplicate_italic_second_entry
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+DUPLICATE-PATH CS:IP=0637:05a9 BX=213d CPU-error=0008 derefs=2 AX=005f DX=0000
+exit=0
+
+__main__.NativeTests.test_duplicate_regular
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+DUPLICATE-PATH CS:IP=0637:05a9 BX=2123 CPU-error=0008 derefs=2 AX=005f DX=0000
+exit=0
+
+__main__.NativeTests.test_empty_outline_range
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+APPEND-PATH CS:IP=0637:048d BX=2123 CPU-error=0000 derefs=2 AX=2123 DX=04cf
+exit=0
+
+__main__.NativeTests.test_new_bold_style
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0020 -> 04cf:2100
+APPEND-PATH CS:IP=0637:048d BX=213d CPU-error=0000 derefs=2 AX=0020 DX=140a
+exit=0
+
+__main__.NativeTests.test_nonzero_family_index_high_offset
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+LMemDeref #2 block=1d70 chunk=0034 -> 04cf:ec00
+DUPLICATE-PATH CS:IP=0637:05a9 BX=ec23 CPU-error=0008 derefs=2 AX=005f DX=0000
+exit=0
+
+__main__.NativeTests.test_original_exact_fault
+LMemDeref #1 block=1d70 chunk=0010 -> 04cf:031a
+REPRODUCED-ORIGINAL-FAULT CS:IP=0637:0419 BX=0010 CPU-error=0010 derefs=1 AX=031a DX=04cf
+exit=13
+

@@ -1,3 +1,7 @@
+# PM-BRINGUP [PM-PRODUCT] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+# PM-BRINGUP [PM-PRODUCT] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+# PM-BRINGUP [PM-PRODUCT] Use the built lowercase win32 GDI variant path on case-sensitive Linux filesystems.
+# PM-BRINGUP [PM-PRODUCT] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 ###############################################################################
 #
 #       Copyright (C) Global PC 1998, All Rights Reserved
@@ -317,7 +321,8 @@ DIR (ensemble) {
 
 	DIR (system) {
 		IF (nt) {
-			Library/GDI/GenPC/WIN32{dbcs}/gdi{ec}.geo
+# PM-BRINGUP [PM-PRODUCT] CHANGED WIN32 to win32 to match the actual Linux-built variant directory.
+			Library/GDI/GenPC/win32{dbcs}/gdi{ec}.geo
 		}
 
 		Library/Kernel/geos{ec}.geo XIP=XIP LOCALPC

@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-DIAG2] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-DIAG2] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-DIAG2] Record loader startup stages and capture the 16-bit DPMI general-protection frame on a private emergency stack.
+; PM-BRINGUP [PM-DIAG2] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @----------------------------------------------------------------------
 
 	Copyright (c) MyTurn.com 2000 -- All Rights Reserved
@@ -178,6 +182,9 @@ gpmiStarted:
 	mov	ds, cs:[loaderDSSelector]
 	mov	es, cs:[loaderDSSelector]
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 1 ; loader data alias ready
+
 	;set basic defaults for video-configuration variables
 	;(If NO_AUTODETECT is defined, these variables will remain this way.)
 
@@ -186,13 +193,19 @@ gpmiStarted:
 	mov	ds:[loaderVars].KLV_curSimpleGraphicsMode, SSGM_NONE
 
         ; Determine the amount of DOS memory available
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 2 ; memory arguments
 	call	FindMemory	; dx <- high segment address
 				; ax, bx, cx destroyed
 
 	; Tell swat where we are in REAL memory (as if we moved ... laugh!)
-        call	ReportLoaderLocation	; ax, bx, cx, dx, si, di, bp destroyed
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+        mov	ds:[loaderDiagnosticStage], 3 ; debugger notification
+	call	ReportLoaderLocation	; ax, bx, cx, dx, si, di, bp destroyed
 
 	; locate the GEOS32 "local tree" directory and CD to it
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 4 ; locating GEOS directory
 	call	LocateGeosDir
 
 	; attempt to load the strings file from the local tree. Fails
@@ -202,6 +215,8 @@ gpmiStarted:
 	; Attempt to open geos.ini file in the local tree. (If not there,
 	; then scan for it in the "system tree".) If there is a path= statement
 	; in that file, then load other .ini files.
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 5 ; opening/parsing GEOS.INI
 	call	OpenIniFiles
 
 
@@ -210,6 +225,8 @@ ifndef	NO_AUTODETECT
 	;attempt to determine the initial text video mode, and which (if any)
 	;of the "simple" graphics modes is possible on this beast.
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 6 ; optional video detection
 	call	LoaderDetectVideoModes
 endif
 
@@ -217,36 +234,52 @@ ifndef NO_SPLASH_SCREEN
 	;If possible, switch to the default graphics mode, and display
 	;the splash screen data on it.
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 7 ; optional splash screen
 	call	LoaderDisplaySplashScreen
 endif
 
 	; open geos.ini and find the number of handles
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 8 ; handles setting
 PC <	call	GetNumberOfHandles					>
 
 	; Scan for /sp_<std path name>=<path> on the command line.
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 9 ; command-line paths
 PC <	call	ParseCmdLineStdPaths					>
 
 	; parse all paths in any .ini files
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 10 ; configured paths
 	call	GetPaths
 
 	; start loading the kernel
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 11 ; opening kernel
 PC <	call	OpenKernelGetDataSize					>
 
 	; Initialize the heap
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 12 ; initializing heap
 	call	InitHeap
 
 	; Load in the kernel
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 13 ; loading/relocating kernel
 PC <	call	LoadKernel		; bx:ax <- library entry	>
 PC <	push	bx, ax			; push library entry
 
 	; make the kernel own all allocated blocks
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 14 ; transferring block ownership
 PC <	call	MakeKernelOwnBlocks					>
 
 	; jump to kernel's library entry point
@@ -255,6 +288,8 @@ PC <	call	MakeKernelOwnBlocks					>
 	;		ss:sp - kernel's stack
 	;		cx:dx - KernelLoadervars structure
 
+; PM-BRINGUP [PM-DIAG2] ADDED checkpoint; 000F remains set after kernel handoff.
+	mov	ds:[loaderDiagnosticStage], 15 ; kernel handoff (or later fault)
 	pop	bx, ax
 	mov	cx, es
 	mov	dx, offset loaderVars
@@ -648,41 +683,56 @@ done:
         ret
 TextToNumber    endp
 
+; PM-BRINGUP [PM-DIAG2] REPLACED terminal GPF path: save all registers before use; preserve first fault on reentry.
 GPF_Fault	proc far
-	push	eax		; sp+4
-	push	bx		; sp+6
-	push	cx		; sp+8
-	push	bp		; sp+10
-	mov	bx, sp
-	mov	cx, ss
-	push	cx		; sp+12
-	push	bx		; sp+14
-
-	; Put us back on the stack where we were when the protection fault occured
+	; DPMI 0.9 16-bit frame at entry: return IP:CS, error, fault IP:CS,
+	; FLAGS, fault SP:SS. Save ALL general/segment registers before using
+	; any of them. PUSHAD = 32 bytes, four segment pushes = 8 bytes.
+	pushad
+	push	ds
+	push	es
+	push	fs
+	push	gs
 	mov	bp, sp
-	mov	eax, ss:[bp+20]
-	mov	bx, ss:[bp+26]	; sp on DPMI call stack
-	mov	cx, ss:[bp+28]	; ss on DPMI call stack
-	mov	sp, bx
-	mov	ss, cx
-
-	; Use on this other stack
-	push	eax
-	on_stack retf
+	tst	cs:[loaderDSSelector]
+	jz	earlyFault
+	LoaderDS
+	tst	ds:[loaderDiagnosticBusy]
+	jnz	reentered
+	mov	ds:[loaderDiagnosticBusy], BB_TRUE
+	mov	eax, ss:[bp+46]
+	mov	ds:[loaderDiagnosticFault], eax
+	mov	ax, ss:[bp+44]
+	mov	ds:[loaderDiagnosticFaultError], ax
+	mov	ds:[loaderDiagnosticFaultValid], BB_TRUE
+	; Copy the register save area and original 16-byte DPMI frame.
+	mov	si, bp
+	mov	di, offset loaderDiagnosticRawFrame
+	mov	cx, 56
+	LoaderES
+	push	ds
+	segmov	ds, ss
+	cld
+	rep	movsb
+	pop	ds
+	; Do not execute DOS reporting on a possibly corrupt application
+	; stack. The fault is terminal: use our private emergency stack.
+	mov	ax, ds
+	mov	ss, ax
+	mov	sp, offset loaderDiagnosticStackEnd
+	call	LoaderDiagnosticProbe
+	jmp	reportFault
+reentered:
+	; Preserve the FIRST fault if a diagnostic read unexpectedly faults.
+	mov	ds:[loaderDiagnosticAborted], BB_TRUE
+	mov	ax, ds
+	mov	ss, ax
+	mov	sp, offset loaderDiagnosticStackEnd
+reportFault:
+earlyFault:
 	mov	ax, LS_GENERAL_PROTECTION_ERROR
 	call	LoaderError
-
-	pop	bx
-	pop	cx
-	mov	sp, bx
-	mov	ss, cx
-
-	pop	bp
-	pop	cx
-	pop	bx
-	pop	eax
-	on_stack retf
-	iret
+	.unreached
 GPF_Fault	endp
 
 

@@ -1,0 +1,19 @@
+{
+  "base_commit": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "base_archive_sha256": "c4d8246db68beb8a39231a798fe604d448d2816861e21d6ea38c251fbe1caba0",
+  "baseline_reconstruction": "Full uploaded source archive extracted to a temporary local Git checkout, not a fetch of the live branch.",
+  "archive_new_path_collisions": false,
+  "baseline_source_check_passed": true,
+  "git_apply_check_passed": true,
+  "all_overlay_files_identical_after_application": true,
+  "current_source_check_passed": true,
+  "git_reverse_apply_check_passed": true,
+  "reverse_application_restored_original_sources": true,
+  "core_source_paths": 17,
+  "modified_original_paths": 15,
+  "new_project_source_paths": 2,
+  "overlay_files": 65,
+  "live_branch_head_verified": false,
+  "guest_boot_tested": false,
+  "whitespace_note": "Legacy formatting and copied historical evidence/notices are retained. Use core.whitespace=cr-at-eol for review; whitespace findings are separate from patch applicability."
+}

@@ -1,0 +1,45 @@
+{
+  "artifact": "PC/GEOS protected-mode full-product installation candidate",
+  "source_commit": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "compiler_snapshot": "OpenWatcom 2020-12-01",
+  "selected_component_directories": 341,
+  "compiled_geodes_packaged": 342,
+  "compiled_dos_executables_packaged": 2,
+  "runtime_files_packaged": 630,
+  "local_inputs": 45,
+  "prepared_runtime_files": 675,
+  "upstream_manifest_exclusions": 18,
+  "selected_build_completed": true,
+  "selected_build_fatal_diagnostics": 0,
+  "declared_import_issues": 0,
+  "startup_load_issues": 0,
+  "guest_tested": false,
+  "working_product_verified": false,
+  "perf_live_sampling_verified": false,
+  "spooler_guest_startup_verified": false,
+  "application_execution_verified": false,
+  "printing_verified": false,
+  "bootable_disk_image": false,
+  "display": {
+    "width": 640,
+    "height": 480,
+    "format": "RGB565",
+    "vesa_mode": "0x111",
+    "banked": true,
+    "classic_16_colour_vga": false
+  },
+  "host_tests": {
+    "executed": true,
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "skipped": 0,
+    "actual_uploaded_archive_used": true
+  },
+  "notes": [
+    "Full product assembled from the supplied branch manifest, with explicit exclusions and supplements.",
+    "The earlier UI-08 missing-spooler configuration is replaced by an included SPOOL.GEO and noSpooler=false.",
+    "Files and static load dependencies are verified; runtime correctness is not.",
+    "A local preparation step restores fonts, the font cache and HDPMI16 from the original source ZIP."
+  ]
+}

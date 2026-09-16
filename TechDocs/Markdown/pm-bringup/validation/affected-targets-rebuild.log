@@ -1,0 +1,322 @@
+FORCED REBUILD OF FIVE AFFECTED COMPONENTS; EXISTING BOOTSTRAPPED SDK/IMPORT PROVIDERS
+===== Kernel =====
+--- Sys.obj ---
+esp -L 4 -Wall `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags esp ` -DREL=3.1.30.1 -DPROTO=654.0 -l Sys.rsc -n geos -Wall -i -DSIMPLE_RTL_SUPPORT       -ISys -I/mnt/data/source-handoff-work/buildsrc/Library/Kernel/Sys  -I/mnt/data/source-handoff-work/buildsrc/Installed/Include -I/mnt/data/source-handoff-work/buildsrc/Include  -I. -I/mnt/data/source-handoff-work/buildsrc/Library/Kernel /mnt/data/source-handoff-work/buildsrc/Library/Kernel/Sys/sysManager.asm  -o Sys.obj
+warning: file "/mnt/data/source-handoff-work/buildsrc/Library/Kernel/Sys/sysMisc.asm", line 2399: SysCheckSegmentValid defined but never used
+--- geos.geo ---
+rm -f geos.geo
+glue   -Og /mnt/data/source-handoff-work/buildsrc/Library/Kernel/geos.gp -P 654.0 -R 3.1.30.1 -z -F./       -l   `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags glue "" /mnt/data/source-handoff-work/buildsrc/Installed/Include /mnt/data/source-handoff-work/buildsrc/Installed/Include`  -m -L/mnt/data/source-handoff-work/buildsrc/Installed/Include -L/mnt/data/source-handoff-work/buildsrc/Installed/Include   -Wunref -DSIMPLE_RTL_SUPPORT -T 2 -o geos.geo Boot.obj DBase.obj Disk.obj Dosappl.obj Drive.obj File.obj FSD.obj Geodes.obj Graphics.obj Heap.obj IM.obj Initfile.obj LMem.obj Local.obj Object.obj Sys.obj Thread.obj Timer.obj VMem.obj Win.obj  
+Resource                          Size   # Relocs
+-------------------------------------------------
+CoreBlock                            0        0
+dgroup                            3248       35
+FixedStrings                      1268        1
+kcode                            53235      299
+Warning: kcode is very large, that is a BAD thing.
+IRQCode                            348       47
+MovableStrings                     440        1
+GLoad                             6264      218
+GCNListBlock                        36        1
+USMap                              256        0
+InitfileRead                      2485       50
+Filemisc                          7607      300
+FileCommon                        4901      123
+Format                            2890       14
+LocalStrings                      1616        1
+ChunkArray                        2481       78
+StandardPathStrings                324        1
+StringMod                          473        2
+StringCmpMod                      1550        6
+DOSConvert                         398       15
+kinit                             8887      307
+FSInfoResource                     120        3
+ObscureInitExit                   2065       59
+InitStrings                        880        1
+WinMisc                           1151       68
+Sort                               341        0
+ChunkCommon                       1530       68
+WinMovable                        7370      205
+DBaseCode                         1763      101
+VMSaveRevertCode                  1813       63
+GraphicsSemiCommon                1588       20
+VMHigh                            2216      129
+VMHugeArray                       3195      169
+C_File                            2184       78
+C_Local                           1275       59
+GraphicsLine                      1527       59
+C_Graphics                        4925      194
+GrWinBlt                          1555       43
+VMOpenCode                        2129       84
+C_Common                          3756      170
+C_System                          3925      170
+GraphicsObscure                   2501       59
+GraphicsFonts                      936       30
+FileenumCode                      2599       65
+GraphicsAllocBitmap               2257       94
+GraphicsStringStore               1664       28
+GraphicsCalcConic                 4279        3
+GraphicsCalcEllipse               1728       12
+GraphicsPalette                    436       21
+GraphcisFontsEnum                  252        5
+GraphicsFatLine                   2271       23
+FontDriverCode                    1559       57
+GraphicsPath                      4987      203
+GraphicsPattern                   1177       35
+GraphicsPolygon                   2183       23
+GraphicsDrawBitmapCommon          1489       26
+GraphicsDrawBitmap                2714       53
+GraphicsRotRaster                  983       16
+GraphicsScaleRaster               2928       15
+GraphicsRegionPaths               1741        7
+GraphicsRoundRect                  566       30
+GraphicsSpline                     735       42
+GraphicsString                    5310      162
+GraphicsText                       503        2
+GraphicsTextObscure               1340       29
+GraphicsImage                     1699       24
+IMMoveResize                       605       11
+IMMiscInput                        920       39
+IMPenCode                         3113       80
+C_ChunkArray                      1460       60
+C_GeneralChange                    480       27
+FileSemiCommon                    1614       48
+InitfileWrite                     2092       76
+MultiMap                           256        0
+FrenchMap                          256        0
+NordicMap                          256        0
+PortugueseMap                      256        0
+Latin1Map                          256        0
+MetaProcessClassCode              1198       71
+C_VarData                          458       24
+VMUtils                           1145       56
+DosapplCode                       2117       91
+ObjectLoad                        2955      100
+GraphicsTransformUtils            3419      110
+GraphicsCommon                    5073      407
+GraphicsPathRect                  1780       48
+GraphicsArc                       2906       76
+GraphicsDashedLine                1089       10
+SystemBitmapsAndHatches            300        1
+ObjectFile                        2529      136
+ECCode                               4        0
+Patching                             2        0
+FSResident                        2515       81
+CopyStackCodeXIP                     7        0
+ProfileLessCommonCode                2        0
+UtilWindowCode                      78        0
+CompressionCode                   1036        4
+SysNotification                    645       24
+
+Total size: 233674 bytes	    Fixed size: 69830 bytes
+Warning: Fixed size should be reduced by moving things into movable resources
+Uninitialized data/stack: 2022 bytes
+
+Warning In segment kcode:
+Warning NullDS defined but never referenced
+--- /mnt/data/source-handoff-work/buildsrc/Installed/Include/geos.ldf ---
+perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/copy-if-different geos.ldf /mnt/data/source-handoff-work/buildsrc/Installed/Include/geos.ldf
+cp geos.ldf /mnt/data/source-handoff-work/buildsrc/Installed/Include/geos.ldf
+===== PMDIAG2 Loader =====
+--- loader.obj ---
+esp -L 4   -I. -I/mnt/data/source-handoff-work/buildsrc/Loader32/Text -I/mnt/data/source-handoff-work/buildsrc/Installed/Include -I/mnt/data/source-handoff-work/buildsrc/Include -I.. -I/mnt/data/source-handoff-work/buildsrc/Loader32 -Wall  `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags esp `    -DREL=0.0.0.0 -DPROTO=0.0  -l loader.rsc   -DNO_SPLASH_SCREEN -DNO_AUTODETECT -DGEOS32 -o loader.obj /mnt/data/source-handoff-work/buildsrc/Loader32/Text/loader.asm
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 136: jump out of range by 94 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 141: jump out of range by 73 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 143: jump out of range by 64 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 145: jump out of range by 55 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 147: jump out of range by 48 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 153: jump out of range by 32 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 1383: jump out of range by 81 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 1390: jump out of range by 73 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 1397: jump out of range by 24 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 1399: jump out of range by 24 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 1401: jump out of range by 24 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 1612: jump out of range by 5 bytes -- transformed to double jump
+/mnt/data/source-handoff-work/buildsrc/Loader32/main.asm: In procedure FindMemory:
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/main.asm", line 414: done defined but never used
+/mnt/data/source-handoff-work/buildsrc/Loader32/strings.asm: At top level:
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/strings.asm", line 69: ReadStringsFile defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/fault.asm", line 33: loaderDiagnosticStack defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/heap.asm", line 27: simpleAllocSegment defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/heap.asm", line 1009: SearchHeap defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/heap.asm", line 1112: SplitBlockWithAddr defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/path.asm", line 59: compKey defined but never used
+/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm: In procedure GPMIFreeBlock:
+warning: file "/mnt/data/source-handoff-work/buildsrc/Loader32/gpmi.asm", line 522: freeSelector defined but never used
+--- loader.exe ---
+rm -f loader.exe
+glue    -F./    -Oe      `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags glue "" /mnt/data/source-handoff-work/buildsrc/Installed/Include /mnt/data/source-handoff-work/buildsrc/Installed/Include`  -m -L/mnt/data/source-handoff-work/buildsrc/Installed/Include -L/mnt/data/source-handoff-work/buildsrc/Installed/Include   -o loader.exe loader.obj  
+===== VGA16 =====
+--- vga16Manager.obj ---
+esp -L 4   -I. -I/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16 -I/mnt/data/source-handoff-work/buildsrc/Installed/Include -I/mnt/data/source-handoff-work/buildsrc/Include -I/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/../VidCom -Wall  `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags esp `    -DREL=6.0.3.1 -DPROTO=VIDEO_PROTO_MAJOR.VIDEO_PROTO_MINOR  -l vga16Manager.rsc  -n video -i -DPM_PERF_MINIMAL -o vga16Manager.obj /mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Manager.asm
+/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/../VidCom/vidcomXOR.asm: In procedure DrawXOR:
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/../VidCom/vidcomXOR.asm", line 745: code cannot be reached
+/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16GenChar.asm: At top level:
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16GenChar.asm", line 823: jump out of range by 4 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 50: jump out of range by 204 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 53: jump out of range by 191 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 75: jump out of range by 118 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 77: jump out of range by 109 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 84: jump out of range by 90 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 86: jump out of range by 79 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 88: jump out of range by 68 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 90: jump out of range by 58 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 92: jump out of range by 48 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 94: jump out of range by 38 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 96: jump out of range by 28 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 98: jump out of range by 18 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 100: jump out of range by 8 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 160: jump out of range by 49 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16PMPerf.asm", line 167: jump out of range by 24 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Variable.def", line 25: vesaInfo defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Under.asm", line 184: VidRestoreUnder defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Under.asm", line 211: VidNukeUnder defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/../VidCom/vidcomEscape.asm", line 106: VidUnsetDevice defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Admin.asm", line 846: screenCategory defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Admin.asm", line 847: bigPointerKey defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Admin.asm", line 848: tvModeKey defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Admin.asm", line 852: VidSetVESAFar defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Admin.asm", line 1248: vesaHeight defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16Admin.asm", line 1295: vesaWidth defined but never used
+--- vga16.geo ---
+rm -f vga16.geo
+glue   -Og /mnt/data/source-handoff-work/buildsrc/Driver/Video/VGAlike/VGA16/vga16.gp -P VIDEO_PROTO_MAJOR.VIDEO_PROTO_MINOR -R 6.0.3.1 -z -F./          `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags glue "" /mnt/data/source-handoff-work/buildsrc/Installed/Include /mnt/data/source-handoff-work/buildsrc/Installed/Include`  -m -L/mnt/data/source-handoff-work/buildsrc/Installed/Include -L/mnt/data/source-handoff-work/buildsrc/Installed/Include   -T 3 -o vga16.geo vga16Manager.obj  
+Resource                          Size   # Relocs
+-------------------------------------------------
+CoreBlock                            0        0
+dgroup                             352        2
+VideoCode                        22719       54
+Warning: VideoCode is very large, that is a BAD thing.
+VideoDevices                      1840        1
+
+Total size: 24911 bytes	    Fixed size: 23071 bytes
+Warning: Fixed size should be reduced by moving things into movable resources
+Uninitialized data/stack: 8608 bytes
+
+Import    Number   Type      Protocol
+-------------------------------------
+geos        0      library    654.068
+hostif      1      library      1.000
+===== TrueType =====
+--- ttinit.obj ---
+wcc -D__GEOS__ -D__WATCOM__ -w4 -fpc  -zu -of -of+ -ol -ol+ -s -ecc -zp1 -ei -zdp -d2 -hc -ml -i=/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Main -i=. -i=/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType -i=/mnt/data/source-handoff-work/buildsrc/Driver/Font/FontCom -i=/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter -i=/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/FreeType -i=/mnt/data/source-handoff-work/buildsrc/CInclude -i=/mnt/data/source-handoff-work/buildsrc/CInclude/Objects -i=/mnt/data/source-handoff-work/buildsrc/CInclude/Objects/Text -i=/mnt/data/source-handoff-work/buildsrc/CInclude/Objects/FlatFile -i=/mnt/data/source-handoff-work/buildsrc/CInclude/Ansi  -i="/mnt/data/source-handoff-work/ow/h"  `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags highc `   -3 -obimlrs -fo="ttinit.obj" "/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c" 
+Open Watcom C x86 16-bit Optimizing Compiler
+Version 2.0 beta Dec  1 2020 00:27:45 (64-bit)
+Copyright (c) 2002-2020 The Open Watcom Contributors. All Rights Reserved.
+Portions Copyright (c) 1984-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(73): Warning! W137: Extern function 'strlen' redeclared as static
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(73): Note! N2002: 'strlen' defined in: /mnt/data/source-handoff-work/buildsrc/CInclude/Ansi/string.h(54)
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(75): Warning! W137: Extern function 'strcpy' redeclared as static
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(75): Note! N2002: 'strcpy' defined in: /mnt/data/source-handoff-work/buildsrc/CInclude/Ansi/string.h(94)
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(79): Warning! W137: Extern function 'strcmp' redeclared as static
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(79): Note! N2002: 'strcmp' defined in: /mnt/data/source-handoff-work/buildsrc/CInclude/Ansi/string.h(86)
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(287): Warning! W303: Parameter 'fontFileSize' has been defined, but not referenced
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(287): Warning! W303: Parameter 'fontFile' has been defined, but not referenced
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(369): Warning! W131: No prototype found for function 'getCharMap'
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(369): Warning! W308: The function 'getCharMap' without prototyped parameters called
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(369): Note! N2002: 'getCharMap' defined in: /mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c(369)
+/mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/Adapter/ttinit.c: 1281 lines, included 39377, 7 warnings, 0 errors
+--- truetype.geo ---
+rm -f truetype.geo
+glue   -Og /mnt/data/source-handoff-work/buildsrc/Driver/Font/TrueType/truetype.gp -P 3.0 -R 6.0.0.1 -z -F./          `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags glue "" /mnt/data/source-handoff-work/buildsrc/Installed/Include /mnt/data/source-handoff-work/buildsrc/Installed/Include`  -m -L/mnt/data/source-handoff-work/buildsrc/Installed/Include -L/mnt/data/source-handoff-work/buildsrc/Installed/Include   -T 3 -o truetype.geo Main.obj ttacache.obj ttadapter.obj ttcharmapper.obj ttchars.obj ttinit.obj ttmetrics.obj ttpath.obj ttwidths.obj ftxkern.obj ttapi.obj ttcache.obj ttcalc.obj ttcmap.obj ttfile.obj ttgload.obj ttinterp.obj ttload.obj ttmemory.obj ttobjs.obj ttraster.obj  
+Resource                          Size   # Relocs
+-------------------------------------------------
+CoreBlock                            0        0
+dgroup                            1056        1
+ttadapter_TEXT                     458       16
+ttcharmapper_TEXT                 1491       24
+ttcmap_TEXT                       1638       30
+ttchars_TEXT                      1972       37
+ttinit_TEXT                       2734       58
+ttmetrics_TEXT                     930       29
+ttpath_TEXT                       3397       95
+ttwidths_TEXT                     3443       73
+ftxkern_TEXT                      1493       23
+ttapi_TEXT                        3228       47
+ttcache_TEXT                      2613       50
+ttcalc_TEXT                        774        1
+ttfile_TEXT                        963       17
+ttgload_TEXT                      6222       45
+ttinterp_TEXT                     5656       22
+STRINGCODE                         222        0
+ttmemory_TEXT                      671       29
+MAINCODE                           102        2
+ttload_TEXT                       6227       72
+ttobjs_TEXT                       2906       26
+ttraster_TEXT                     9160       19
+Resident                           432       10
+WidthMod                           153        9
+CharMod                            127        8
+MetricsMod                         516       33
+InitMod                            232       13
+ttacache_TEXT                     1856       64
+InterpInfreq                      4733       23
+InterpExtra                       3062       19
+InterpEntry                       5414       57
+
+Total size: 73881 bytes	    Fixed size: 57788 bytes
+Warning: Fixed size should be reduced by moving things into movable resources
+Uninitialized data/stack: 44 bytes
+
+Import    Number   Type      Protocol
+-------------------------------------
+geos        0      library    654.010
+===== Perf =====
+--- perf.rdef ---
+uic -p uicpp `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags uic ` -l -DPM_PERF_MINIMAL -I/mnt/data/source-handoff-work/buildsrc/Appl/Perf -I/mnt/data/source-handoff-work/buildsrc/Include -I. -I- -I/mnt/data/source-handoff-work/buildsrc/Appl/Perf -I/mnt/data/source-handoff-work/buildsrc/Include -I. -o perf.rdef /mnt/data/source-handoff-work/buildsrc/Appl/Perf/perf.ui
+--- perf.obj ---
+esp -L 4   -I. -I/mnt/data/source-handoff-work/buildsrc/Appl/Perf -I/mnt/data/source-handoff-work/buildsrc/Installed/Include -I/mnt/data/source-handoff-work/buildsrc/Include -Wall  `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags esp `    -DREL=6.0.0.1 -DPROTO=301.0  -l perf.rsc   -Wall -DPM_PERF_MINIMAL -o perf.obj /mnt/data/source-handoff-work/buildsrc/Appl/Perf/perf.asm
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 802: jump out of range by 63 bytes -- transformed to double jump
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/init.asm", line 308: InitMemoryStats defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/init.asm", line 930: LoadPPPDriver defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/init.asm", line 1024: InitHandleStats defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 315: PerfCalcHeapAllocation defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 370: PerfCalcHeapFixed defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 425: PerfCalcHeapFragmentation defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 479: PerfCalcSwapAllocation defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 562: PerfMCalcSwapOut defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 593: PerfCalcSwapIn defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 624: PerfCalcPPPStatistics defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 694: PerfCalcFreeHandles defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/calc.asm", line 780: CalcMemoryStatistics defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/draw.asm", line 34: ShortChartNames defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/draw.asm", line 309: PrepareToDrawToMemory defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/draw.asm", line 364: ChooseFirstPerfMeter defined but never used
+warning: file "/mnt/data/source-handoff-work/buildsrc/Appl/Perf/draw.asm", line 412: FinishDrawingToDrawToMemory defined but never used
+--- perf.geo ---
+rm -f perf.geo
+glue   -Og /mnt/data/source-handoff-work/buildsrc/Appl/Perf/perf.gp -P 301.0 -R 6.0.0.1 -z -F./          `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags glue "" /mnt/data/source-handoff-work/buildsrc/Installed/Include /mnt/data/source-handoff-work/buildsrc/Installed/Include`  -m -L/mnt/data/source-handoff-work/buildsrc/Installed/Include -L/mnt/data/source-handoff-work/buildsrc/Installed/Include   -Wunref -T 1 -o perf.geo perf.obj  
+Resource                          Size   # Relocs
+-------------------------------------------------
+CoreBlock                            0        0
+dgroup                             304       15
+PerfFixedCommonCode                159        9
+PerfInitCode                       997       45
+PerfCalcStatCode                  1234        7
+PerfDrawCode                       944       34
+PerfUIHandlingCode                 393       17
+AppLCMonikerResource               200        1
+AppLMMonikerResource               120        1
+AppSCMonikerResource               908        1
+AppSMMonikerResource               220        1
+AppLCGAMonikerResource              76        1
+AppSCGAMonikerResource             124        1
+AppTCMonikerResource               188        1
+AppTMMonikerResource                68        1
+AppTCGAMonikerResource              60        1
+PerfUIStrings                      244        1
+PerfProcStrings                    412        1
+AppResource                        448        1
+Interface                          296        1
+SettingsResource                  1192        1
+
+Total size: 8587 bytes	    Fixed size: 304 bytes
+Uninitialized data/stack: 3588 bytes
+
+Import    Number   Type      Protocol
+-------------------------------------
+geos        0      library    654.000
+ui          1      library    743.001
+color       2      library      2.000
+ALL-FIVE-AFFECTED-TARGETS-COMPLETE

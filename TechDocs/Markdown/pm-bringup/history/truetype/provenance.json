@@ -1,0 +1,67 @@
+{
+  "build_date_utc": "2026-09-15",
+  "status": "targeted TrueType driver fix; full DOSBox-X startup not verified",
+  "source_commit": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "source_archive_sha256": "c4d8246db68beb8a39231a798fe604d448d2816861e21d6ea38c251fbe1caba0",
+  "openwatcom_archive_sha256": "25ce668825a6e145e18d4347675912b98cb0f202d100bdc1a436f6fe69515f40",
+  "openwatcom_version": "2020-12-01-Build",
+  "compiler_binaries": {
+    "binl64/wcc": "c9c865ed7f8ccfae1da684762781b189d713ab74cb1d63a4d5b456fedfb104da",
+    "binl64/wcc386": "6f1ade73cbb23197be36fa942ee7f6e567a8729fd87e557973cc2f65e8601ab9",
+    "binl64/wmake": "9f160e02274a564024d73e4777aeaaaadbcc18a3c5985f07113721f488353a7a",
+    "binl64/wlink": "c6d3be138eb127da53af5a0c1738155b69063f0a6b3cd6e204e51684b7ec5e11",
+    "binl64/wdis": "aef672e7e213127d543e4e466dfd56a164d6a30a0a639d7538c026cb36190e97"
+  },
+  "original_driver_sha256": "548a1729804011f345264967b5a328446fa667bdf4137367f929f26a88ef663c",
+  "fixed_driver_sha256": "836e6562c9d97cfcf4fc007b0052a070be3db9c7b2f0408daa571e8b8c49b28c",
+  "fixed_driver_bytes": 78598,
+  "fixed_symbol_sha256": "13300fd3f6829470a7b17cd7cd31fee4ca26249091862cea98f5d4227cdef5ac",
+  "original_source_sha256": "bb15c9d5409bbfd7925e9127ae6f852ff3de7210428b2c1c2edbfd208612b60d",
+  "fixed_source_sha256": "26491f8ee7ed6cf6a3c56f74b43e022836cf4ca05d2641e84ad107f2d612cf13",
+  "baseline_rebuild_sha256": "ee1575760b5fbee6a7b9638f3c164bd7e9b67f761434b6ef90c36689511e8caf",
+  "baseline_rebuild_resource_tables_code_relocations_identical": true,
+  "baseline_rebuild_header_difference_offsets": [
+    "0xc8",
+    "0xca",
+    "0xcb",
+    "0x12a",
+    "0x12b"
+  ],
+  "repeat_rebuild_sha256": "1f147856c8cb02c14adc21b0207b372adeaae694e2739cb91d06042acf71398c",
+  "repeat_rebuild_resource_tables_code_relocations_identical": true,
+  "repeat_rebuild_header_difference_offsets": [
+    "0xca",
+    "0xcb",
+    "0x12a"
+  ],
+  "observed_fault": {
+    "module": "truetype.drvr",
+    "resource": 6,
+    "cs": "0637",
+    "ip": "0419",
+    "bx": "0010",
+    "exception_error": "0010",
+    "instruction": "8E C3 / MOV ES,BX"
+  },
+  "changed_runtime_files": [
+    "SYSTEM/FONT/TRUETYPE.GEO"
+  ],
+  "backup_relative_path": "SYSTEM/FONT/TTFPM1.BAK",
+  "guest_tested": false,
+  "boot_verified": false,
+  "live_perf_verified": false,
+  "source_changes": [
+    "Initialize the existing family FontInfo pointer before deriving the outline range."
+  ],
+  "rebuild_recipe_verification": {
+    "payload_matches": true,
+    "sha256": "580316a2817b59757a9248bd5a989b7dfa35e47d93c61efbec7a56edb6e10cf0",
+    "header_difference_offsets": [
+      "0xca",
+      "0xcb",
+      "0x12a",
+      "0x12b"
+    ],
+    "guest_tested": false
+  }
+}

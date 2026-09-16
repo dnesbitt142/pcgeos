@@ -1,0 +1,70 @@
+test_32bit_segment_limit_not_truncated (__main__.NativeTests.test_32bit_segment_limit_not_truncated) ... ok
+test_code_span_truncated_at_limit (__main__.NativeTests.test_code_span_truncated_at_limit) ... ok
+test_complete_valid_snapshot (__main__.NativeTests.test_complete_valid_snapshot) ... ok
+test_early_dpmi_error_without_alias (__main__.NativeTests.test_early_dpmi_error_without_alias) ... ok
+test_early_gpf_without_loader_data_alias (__main__.NativeTests.test_early_gpf_without_loader_data_alias) ... ok
+test_geode_name_sanitized_and_dollar_not_string_terminator (__main__.NativeTests.test_geode_name_sanitized_and_dollar_not_string_terminator) ... ok
+test_heap_lookup_not_attempted_before_construction (__main__.NativeTests.test_heap_lookup_not_attempted_before_construction) ... ok
+test_message_0000 (__main__.NativeTests.test_message_0000) ... ok
+test_message_0001 (__main__.NativeTests.test_message_0001) ... ok
+test_message_0002 (__main__.NativeTests.test_message_0002) ... ok
+test_message_0003 (__main__.NativeTests.test_message_0003) ... ok
+test_message_0004 (__main__.NativeTests.test_message_0004) ... ok
+test_message_0005 (__main__.NativeTests.test_message_0005) ... ok
+test_message_0006 (__main__.NativeTests.test_message_0006) ... ok
+test_message_0007 (__main__.NativeTests.test_message_0007) ... ok
+test_message_0008 (__main__.NativeTests.test_message_0008) ... ok
+test_message_0009 (__main__.NativeTests.test_message_0009) ... ok
+test_message_000A (__main__.NativeTests.test_message_000A) ... ok
+test_message_000B (__main__.NativeTests.test_message_000B) ... ok
+test_message_000C (__main__.NativeTests.test_message_000C) ... ok
+test_message_000D (__main__.NativeTests.test_message_000D) ... ok
+test_null_stack_not_dereferenced (__main__.NativeTests.test_null_stack_not_dereferenced) ... ok
+test_offset_ffff_no_wrap_or_partial_stack_word (__main__.NativeTests.test_offset_ffff_no_wrap_or_partial_stack_word) ... ok
+test_reentrant_handler_preserves_first_fault (__main__.NativeTests.test_reentrant_handler_preserves_first_fault) ... ok
+test_reject_code_absent_code (__main__.NativeTests.test_reject_code_absent_code) ... ok
+test_reject_code_execute_only (__main__.NativeTests.test_reject_code_execute_only) ... ok
+test_reject_code_expand_down (__main__.NativeTests.test_reject_code_expand_down) ... ok
+test_reject_code_null_code (__main__.NativeTests.test_reject_code_null_code) ... ok
+test_reject_code_out_of_limit (__main__.NativeTests.test_reject_code_out_of_limit) ... ok
+test_reject_owner_bad_bounds (__main__.NativeTests.test_reject_owner_bad_bounds) ... ok
+test_reject_owner_bad_core_owner (__main__.NativeTests.test_reject_owner_bad_core_owner) ... ok
+test_reject_owner_bad_owner (__main__.NativeTests.test_reject_owner_bad_owner) ... ok
+test_reject_owner_empty_table (__main__.NativeTests.test_reject_owner_empty_table) ... ok
+test_reject_owner_misaligned_table (__main__.NativeTests.test_reject_owner_misaligned_table) ... ok
+test_reject_owner_no_owner (__main__.NativeTests.test_reject_owner_no_owner) ... ok
+test_reject_owner_short_core (__main__.NativeTests.test_reject_owner_short_core) ... ok
+test_reject_owner_short_heap (__main__.NativeTests.test_reject_owner_short_heap) ... ok
+test_stage_and_fault_hex_values_not_truncated (__main__.NativeTests.test_stage_and_fault_hex_values_not_truncated) ... ok
+test_unavailable_resource_array_preserves_owner_name (__main__.NativeTests.test_unavailable_resource_array_preserves_owner_name) ... ok
+test_unknown_error_codes_bounded (__main__.NativeTests.test_unknown_error_codes_bounded) ... ok
+test_executable_and_symbol_hashes (__main__.PackageTests.test_executable_and_symbol_hashes) ... ok
+test_full_product_then_diag1_then_diag2_preserves_every_other_file (__main__.PackageTests.test_full_product_then_diag1_then_diag2_preserves_every_other_file) ... ok
+test_mz_header_and_size (__main__.PackageTests.test_mz_header_and_size) ... ok
+test_no_font_payload (__main__.PackageTests.test_no_font_payload) ... ok
+test_source_provenance (__main__.PackageTests.test_source_provenance) ... ok
+test_two_verified_rebuilds_and_unverified_guest_status (__main__.PackageTests.test_two_verified_rebuilds_and_unverified_guest_status) ... ok
+test_ambiguous_filenames_refused (__main__.UpdaterTests.test_ambiguous_filenames_refused) ... ok
+test_case_insensitive_filename (__main__.UpdaterTests.test_case_insensitive_filename) ... ok
+test_existing_new_backup_preserved (__main__.UpdaterTests.test_existing_new_backup_preserved) ... ok
+test_missing_loader_refused (__main__.UpdaterTests.test_missing_loader_refused) ... ok
+test_modified_replacement_checksum_refused (__main__.UpdaterTests.test_modified_replacement_checksum_refused) ... ok
+test_original_full_product_supported (__main__.UpdaterTests.test_original_full_product_supported) ... ok
+test_pm_diag1_upgrade_preserves_both_backups_and_ini (__main__.UpdaterTests.test_pm_diag1_upgrade_preserves_both_backups_and_ini) ... ok
+test_repeat_update_noop (__main__.UpdaterTests.test_repeat_update_noop) ... ok
+test_restore_original_loader (__main__.UpdaterTests.test_restore_original_loader) ... ok
+test_restore_previous_loader (__main__.UpdaterTests.test_restore_previous_loader) ... ok
+test_symlink_backup_refused (__main__.UpdaterTests.test_symlink_backup_refused) ... ok
+test_symlink_loader_refused (__main__.UpdaterTests.test_symlink_loader_refused) ... ok
+test_tampered_restore_refused (__main__.UpdaterTests.test_tampered_restore_refused) ... ok
+test_unknown_loader_refused (__main__.UpdaterTests.test_unknown_loader_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 60 tests in 1.299s
+
+OK
+
+Actual full-product preparation/update audit: 675 original files; 674 unchanged.
+Existing PMDIAG1 LOADER.BAK retained; only LOADER.EXE replaced; LDRD2.BAK added.
+Restore returns to PMDIAG1 without changing any other prior file.
+

@@ -1,0 +1,68 @@
+{
+  "baseline_rebuild_sha256": "1da956ff807895afbe85d0a9bd9062ba2874462b335d030390f5b5c403d43360",
+  "baseline_rebuild_payload_identical": true,
+  "baseline_header_difference_offsets": [
+    "0xc8",
+    "0xca",
+    "0xcb",
+    "0x12a",
+    "0x12b"
+  ],
+  "original_source_sha256": "752f640355c02129ca19c56ca753b599f1c6c777f31f00d31aac4a5de5c6d5ef",
+  "fixed_source_sha256": "e56450ac48e0d47fb89d7c57e43480c8e1f30be0efbb4bec99f6234c1d77adb7",
+  "build_date_utc": "2026-09-15",
+  "status": "corrected Perf minimal sampling call graph; DOSBox-X startup unverified",
+  "source_commit": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "source_archive_sha256": "c4d8246db68beb8a39231a798fe604d448d2816861e21d6ea38c251fbe1caba0",
+  "openwatcom_archive_sha256": "25ce668825a6e145e18d4347675912b98cb0f202d100bdc1a436f6fe69515f40",
+  "openwatcom_version": "2020-12-01-Build",
+  "compiler_binaries": {
+    "binl64/wmake": "9f160e02274a564024d73e4777aeaaaadbcc18a3c5985f07113721f488353a7a",
+    "binl64/wcc386": "6f1ade73cbb23197be36fa942ee7f6e567a8729fd87e557973cc2f65e8601ab9",
+    "binl64/wlink": "c6d3be138eb127da53af5a0c1738155b69063f0a6b3cd6e204e51684b7ec5e11",
+    "binl64/wcc": "c9c865ed7f8ccfae1da684762781b189d713ab74cb1d63a4d5b456fedfb104da",
+    "binl64/wasm": "6b0f4b624239c75683f4ec19ea78d7b48440ba15503c20362e7e66f9beb12f12",
+    "binl64/wlib": "58113e5bb56fa8518bd66e6c1be3a48434ebaeafb9980c755cda5a03635d3db6"
+  },
+  "original_perf_sha256": "08ca19b5f2f58cada9000be089e355785b3e0b1e8978e09ff3685610dfce5b72",
+  "fixed_perf_sha256": "cf2e72183bb8cd345a7516ef7a5c83cfa1095d2ded7f4c17959823f3db253822",
+  "fixed_perf_bytes": 9864,
+  "fixed_symbol_sha256": "a27f178ded2c698b6216b6b3be5633035c92f74dc664c512bbc74d3e34b3f7b3",
+  "runtime_relative_path": "WORLD/DESK_ACC.000/PERF.GEO",
+  "backup_relative_path": "WORLD/DESK_ACC.000/PERFKR1.BAK",
+  "changed_resources": [
+    4
+  ],
+  "changed_runtime_files": [
+    "WORLD/DESK_ACC.000/PERF.GEO"
+  ],
+  "guest_tested": false,
+  "live_perf_verified": false,
+  "reported_symptom": "KR-01 when Perf starts, after TrueType fix was confirmed by user",
+  "controlled_reproduction": {
+    "resource": 4,
+    "ip": "02e1",
+    "instruction": "F7 F6 / DIV SI",
+    "si": 0,
+    "handlesPerPixel_dgroup_offset": "0754",
+    "native_cpu_exception_vector": 0,
+    "guest_fault_address_known": false
+  },
+  "required_profile_sources": {
+    "Appl/Perf/perf.asm": "7078e688410ed7ae81c010789210aa120ffaa5483462c29d1d32320837c1dcd0",
+    "Appl/Perf/init.asm": "27d27500ef30cb0ff6c50de1fa1f146af04be59392370f9a3befac9a70b28d28",
+    "Appl/Perf/perf.ui": "81f11b1449ca1df4f3bc5d832157d6169636d75c55671ff7624457fb0f60f66f",
+    "Appl/Perf/local.mk": "836229c03bb6df501191d2e79750edb7df35a238d6ab851f259872b5fb880fc1"
+  },
+  "rebuild_recipe_verification": {
+    "payload_matches": true,
+    "sha256": "b5f60e0d6bfffbf73d6aa2ad3a7cb2b0a09667ab5ebeeca5f5dca9d2b3f258ca",
+    "header_difference_offsets": [
+      "0xca",
+      "0x12a",
+      "0x12b"
+    ],
+    "guest_tested": false
+  },
+  "nonminimal_payload_unchanged": true
+}

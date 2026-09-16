@@ -1,0 +1,45 @@
+test_01_packaged_files_match_manifest (__main__.ProductTests.test_01_packaged_files_match_manifest) ... ok
+test_02_product_scale_not_minimal_runtime (__main__.ProductTests.test_02_product_scale_not_minimal_runtime) ... ok
+test_03_all_geode_headers_are_valid (__main__.ProductTests.test_03_all_geode_headers_are_valid) ... ok
+test_04_declared_library_protocols_resolve (__main__.ProductTests.test_04_declared_library_protocols_resolve) ... ok
+test_05_desktop_office_and_perf_present (__main__.ProductTests.test_05_desktop_office_and_perf_present) ... ok
+test_06_loader_and_debug_stub_are_mz (__main__.ProductTests.test_06_loader_and_debug_stub_are_mz) ... ok
+test_07_spooler_explicitly_enabled (__main__.ProductTests.test_07_spooler_explicitly_enabled) ... ok
+test_08_startup_long_names_resolve (__main__.ProductTests.test_08_startup_long_names_resolve) ... ok
+test_09_configured_drivers_present (__main__.ProductTests.test_09_configured_drivers_present) ... ok
+test_10_vga_resolution_preserved (__main__.ProductTests.test_10_vga_resolution_preserved) ... ok
+test_11_taskbar_enabled (__main__.ProductTests.test_11_taskbar_enabled) ... ok
+test_12_unsafe_initial_hardware_options_not_activated (__main__.ProductTests.test_12_unsafe_initial_hardware_options_not_activated) ... ok
+test_13_optional_mailbox_keeps_upstream_default (__main__.ProductTests.test_13_optional_mailbox_keeps_upstream_default) ... ok
+test_14_dos_short_names_and_no_case_collisions (__main__.ProductTests.test_14_dos_short_names_and_no_case_collisions) ... ok
+test_15_audit_has_no_remaining_errors (__main__.ProductTests.test_15_audit_has_no_remaining_errors) ... ok
+test_16_font_files_are_local_inputs_not_packaged (__main__.ProductTests.test_16_font_files_are_local_inputs_not_packaged) ... ok
+test_17_ini_and_batches_use_crlf (__main__.ProductTests.test_17_ini_and_batches_use_crlf) ... ok
+test_18_startup_aliases_use_new_entrypoint (__main__.ProductTests.test_18_startup_aliases_use_new_entrypoint) ... ok
+test_19_debug_symbols_match_inventory (__main__.ProductTests.test_19_debug_symbols_match_inventory) ... ok
+test_20_geodump_agrees_with_independent_header_reader (__main__.ProductTests.test_20_geodump_agrees_with_independent_header_reader) ... ok
+test_21_no_claim_of_guest_verification (__main__.ProductTests.test_21_no_claim_of_guest_verification) ... ok
+test_22_multiline_ini_replacement_preserves_other_keys (__main__.ProductTests.test_22_multiline_ini_replacement_preserves_other_keys) ... ok
+test_23_duplicate_ini_sections_rejected (__main__.ProductTests.test_23_duplicate_ini_sections_rejected) ... ok
+test_24_duplicate_ini_keys_rejected (__main__.ProductTests.test_24_duplicate_ini_keys_rejected) ... ok
+test_25_unclosed_multiline_rejected (__main__.ProductTests.test_25_unclosed_multiline_rejected) ... ok
+test_26_path_traversal_rejected (__main__.ProductTests.test_26_path_traversal_rejected) ... ok
+test_27_output_never_overwrites_existing_directory (__main__.ProductTests.test_27_output_never_overwrites_existing_directory) ... ok
+test_28_wrong_archive_rejected (__main__.ProductTests.test_28_wrong_archive_rejected) ... ok
+test_29_symlink_path_rejected (__main__.ProductTests.test_29_symlink_path_rejected) ... ok
+test_30_actual_source_archive_matches_build_input (__main__.ProductTests.test_30_actual_source_archive_matches_build_input) ... ok
+test_31_local_input_members_match_actual_archive (__main__.ProductTests.test_31_local_input_members_match_actual_archive) ... ok
+test_32_install_using_actual_archive_and_reaudit (__main__.ProductTests.test_32_install_using_actual_archive_and_reaudit) ... ok
+test_33_source_replacements_match_manifest (__main__.ProductTests.test_33_source_replacements_match_manifest) ... ok
+test_34_source_patch_inputs_match_uploaded_source (__main__.ProductTests.test_34_source_patch_inputs_match_uploaded_source) ... ok
+test_35_no_template_tokens_in_active_ini (__main__.ProductTests.test_35_no_template_tokens_in_active_ini) ... ok
+test_36_selected_product_rebuild_finished (__main__.ProductTests.test_36_selected_product_rebuild_finished) ... ok
+test_37_zero_exit_does_not_mask_make_fatal_diagnostics (__main__.ProductTests.test_37_zero_exit_does_not_mask_make_fatal_diagnostics) ... ok
+test_38_final_selected_build_has_no_fatal_diagnostics (__main__.ProductTests.test_38_final_selected_build_has_no_fatal_diagnostics) ... ok
+test_39_upstream_manifest_gaps_are_explicit (__main__.ProductTests.test_39_upstream_manifest_gaps_are_explicit) ... ok
+test_40_linux_gdi_path_and_build_prerequisite_are_corrected (__main__.ProductTests.test_40_linux_gdi_path_and_build_prerequisite_are_corrected) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 1.074s
+
+OK

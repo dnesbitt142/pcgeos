@@ -1,0 +1,33 @@
+test_actual_prepared_product_after_both_diagnostic_updates (__main__.ActualProductTests.test_actual_prepared_product_after_both_diagnostic_updates) ... ok
+test_fault_bytes_match_screenshot (__main__.BinaryTests.test_fault_bytes_match_screenshot) ... ok
+test_only_one_runtime_file_and_no_fonts (__main__.BinaryTests.test_only_one_runtime_file_and_no_fonts) ... ok
+test_original_and_fixed_hashes (__main__.BinaryTests.test_original_and_fixed_hashes) ... ok
+test_resource_bounds_and_imports (__main__.BinaryTests.test_resource_bounds_and_imports) ... ok
+test_source_and_symbols (__main__.BinaryTests.test_source_and_symbols) ... ok
+test_unchanged_dgroup (__main__.BinaryTests.test_unchanged_dgroup) ... ok
+test_distinct_style (__main__.NativeTests.test_distinct_style) ... ok
+test_distinct_weight (__main__.NativeTests.test_distinct_weight) ... ok
+test_duplicate_bold_second_entry (__main__.NativeTests.test_duplicate_bold_second_entry) ... ok
+test_duplicate_italic_second_entry (__main__.NativeTests.test_duplicate_italic_second_entry) ... ok
+test_duplicate_regular (__main__.NativeTests.test_duplicate_regular) ... ok
+test_empty_outline_range (__main__.NativeTests.test_empty_outline_range) ... ok
+test_new_bold_style (__main__.NativeTests.test_new_bold_style) ... ok
+test_nonzero_family_index_high_offset (__main__.NativeTests.test_nonzero_family_index_high_offset) ... ok
+test_original_exact_fault (__main__.NativeTests.test_original_exact_fault) ... ok
+test_apply_only_driver (__main__.UpdaterTests.test_apply_only_driver) ... ok
+test_case_collision_rejected (__main__.UpdaterTests.test_case_collision_rejected) ... ok
+test_case_insensitive_names (__main__.UpdaterTests.test_case_insensitive_names) ... ok
+test_damaged_backup_restore_rejected (__main__.UpdaterTests.test_damaged_backup_restore_rejected) ... ok
+test_existing_backup_not_overwritten (__main__.UpdaterTests.test_existing_backup_not_overwritten) ... ok
+test_idempotent (__main__.UpdaterTests.test_idempotent) ... ok
+test_missing_entrypoint_rejected (__main__.UpdaterTests.test_missing_entrypoint_rejected) ... ok
+test_restore (__main__.UpdaterTests.test_restore) ... ok
+test_symlink_directory_rejected (__main__.UpdaterTests.test_symlink_directory_rejected) ... ok
+test_symlink_driver_rejected (__main__.UpdaterTests.test_symlink_driver_rejected) ... ok
+test_tampered_replacement_not_installed (__main__.UpdaterTests.test_tampered_replacement_not_installed) ... ok
+test_unknown_driver_not_overwritten (__main__.UpdaterTests.test_unknown_driver_not_overwritten) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.857s
+
+OK

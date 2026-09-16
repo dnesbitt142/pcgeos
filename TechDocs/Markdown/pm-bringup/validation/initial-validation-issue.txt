@@ -1,0 +1,14 @@
+INITIAL VALIDATION-RECIPE ISSUE (not a new runtime defect):
+Extra AnsiC validation step ran without building its Math import provider.
+The legacy command returned 0, but the fatal-diagnostic checker detected:
+
+color       2      library      2.000
+===== ANSIC import provider =====
+pmake: Can't figure out how to make math.ldf. Stop
+--- stdlib_asm.obj ---
+esp -L 4   -I. -I/mnt/data/source-handoff-work/buildsrc/Library/AnsiC -I/mnt/data/source-handoff-work/buildsrc/Installed/Include -I/mnt/data/source-handoff-work/buildsrc/Include -Wall  `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags esp `    -DREL=6.0.0.1 -DPROTO=1.1  -l stdlib_asm.rsc  -n ansic -Wall  -o stdlib_asm.obj /mnt/data/source-handoff-work/buildsrc/Library/AnsiC/stdlib_asm.asm
+--- DBCS/stdlib_asm.obj ---
+esp -L 4 -IDBCS  -I. -I/mnt/data/source-handoff-work/buildsrc/Library/AnsiC -I/mnt/data/source-handoff-work/buildsrc/Installed/Include -I/mnt/data/source-handoff-work/buildsrc/Include -Wall  `perl /mnt/data/source-handoff-work/buildsrc/Tools/scripts/perl/product_flags esp DBCS`    -DREL=6.0.0.1 -DPROTO=1.1  -l DBCS/stdlib_asm.rsc  -n ansic -Wall  -o DBCS/stdlib_asm.obj /mnt/data/source-handoff-work/buildsrc/Library/AnsiC/stdlib_asm.asm
+
+The final five-target rebuild omits this unnecessary extra step.
+The full original log is in pcgeos-pm-source-validation.zip.

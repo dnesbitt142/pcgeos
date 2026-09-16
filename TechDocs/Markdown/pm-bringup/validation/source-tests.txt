@@ -1,0 +1,37 @@
+test_01_exact_pinned_baseline (test_source_handoff.SourceHandoffTests.test_01_exact_pinned_baseline) ... ok
+test_02_seventeen_distinct_project_sources (test_source_handoff.SourceHandoffTests.test_02_seventeen_distinct_project_sources) ... ok
+test_03_fifteen_modified_and_two_new (test_source_handoff.SourceHandoffTests.test_03_fifteen_modified_and_two_new) ... ok
+test_04_current_hashes_and_comment_only_relationship (test_source_handoff.SourceHandoffTests.test_04_current_hashes_and_comment_only_relationship) ... ok
+test_05_each_project_source_has_explanatory_marker (test_source_handoff.SourceHandoffTests.test_05_each_project_source_has_explanatory_marker) ... ok
+test_06_declared_line_endings_are_preserved (test_source_handoff.SourceHandoffTests.test_06_declared_line_endings_are_preserved) ... ok
+test_07_changed_source_is_rejected (test_source_handoff.SourceHandoffTests.test_07_changed_source_is_rejected) ... ok
+test_08_missing_source_is_rejected (test_source_handoff.SourceHandoffTests.test_08_missing_source_is_rejected) ... ok
+test_09_new_path_collision_is_rejected (test_source_handoff.SourceHandoffTests.test_09_new_path_collision_is_rejected) ... ok
+test_10_symlinks_are_not_followed (test_source_handoff.SourceHandoffTests.test_10_symlinks_are_not_followed) ... ok
+test_11_checker_never_writes_sources (test_source_handoff.SourceHandoffTests.test_11_checker_never_writes_sources) ... ok
+test_12_c_comment_filter_does_not_hide_executable_text (test_source_handoff.SourceHandoffTests.test_12_c_comment_filter_does_not_hide_executable_text) ... ok
+test_13_true_type_resolves_before_outline_access (test_source_handoff.SourceHandoffTests.test_13_true_type_resolves_before_outline_access) ... ok
+test_14_sampling_guard_wraps_unsupported_calls (test_source_handoff.SourceHandoffTests.test_14_sampling_guard_wraps_unsupported_calls) ... ok
+test_15_pmdiag2_not_unimplemented_pmdiag3 (test_source_handoff.SourceHandoffTests.test_15_pmdiag2_not_unimplemented_pmdiag3) ... ok
+test_16_full_product_spooler_and_perf_startup (test_source_handoff.SourceHandoffTests.test_16_full_product_spooler_and_perf_startup) ... ok
+test_17_profile_keeps_vga_resolution_and_keyboard_mouse (test_source_handoff.SourceHandoffTests.test_17_profile_keeps_vga_resolution_and_keyboard_mouse) ... ok
+test_18_ini_editor_preserves_unrelated_content (test_source_handoff.SourceHandoffTests.test_18_ini_editor_preserves_unrelated_content) ... ok
+test_19_ini_editor_replaces_whole_braced_value (test_source_handoff.SourceHandoffTests.test_19_ini_editor_replaces_whole_braced_value) ... ok
+test_20_ini_editor_rejects_duplicate_sections (test_source_handoff.SourceHandoffTests.test_20_ini_editor_rejects_duplicate_sections) ... ok
+test_21_ini_editor_rejects_unclosed_braces (test_source_handoff.SourceHandoffTests.test_21_ini_editor_rejects_unclosed_braces) ... ok
+test_22_manifest_has_eighteen_documented_exclusions (test_source_handoff.SourceHandoffTests.test_22_manifest_has_eighteen_documented_exclusions) ... ok
+test_23_lowercase_gdi_variant_in_product_manifest (test_source_handoff.SourceHandoffTests.test_23_lowercase_gdi_variant_in_product_manifest) ... ok
+test_24_source_build_wrapper_does_not_reapply_old_patches (test_source_handoff.SourceHandoffTests.test_24_source_build_wrapper_does_not_reapply_old_patches) ... ok
+test_25_detects_legacy_make_error_even_without_exit_failure (test_source_handoff.SourceHandoffTests.test_25_detects_legacy_make_error_even_without_exit_failure) ... ok
+test_26_compiler_warnings_are_not_reported_as_fatal (test_source_handoff.SourceHandoffTests.test_26_compiler_warnings_are_not_reported_as_fatal) ... ok
+test_27_all_new_python_helpers_parse (test_source_handoff.SourceHandoffTests.test_27_all_new_python_helpers_parse) ... ok
+test_28_shell_wrapper_syntax (test_source_handoff.SourceHandoffTests.test_28_shell_wrapper_syntax) ... ok
+test_29_native_fixture_sources_compile_but_are_not_executed (test_source_handoff.SourceHandoffTests.test_29_native_fixture_sources_compile_but_are_not_executed) ... ok
+test_30_source_handoff_explicitly_does_not_claim_pending_features (test_source_handoff.SourceHandoffTests.test_30_source_handoff_explicitly_does_not_claim_pending_features) ... ok
+test_31_import_check_requires_compatible_protocol (test_source_handoff.SourceHandoffTests.test_31_import_check_requires_compatible_protocol) ... ok
+test_32_compiler_pin_is_the_supplied_archive (test_source_handoff.SourceHandoffTests.test_32_compiler_pin_is_the_supplied_archive) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.346s
+
+OK

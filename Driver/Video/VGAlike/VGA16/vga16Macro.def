@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-VBE] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-VBE] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-VBE] Route bank-switch BIOS calls through the DPMI real-interrupt helper in the opt-in profile.
+; PM-BRINGUP [PM-VBE] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	Copyright (c) GlobalPC 1998 -- All Rights Reserved
@@ -665,6 +669,11 @@ doCall::
 notLoaded::
 	pop	ax, ds, bx, cx
 else
+; PM-BRINGUP [PM-VBE] ADDED DPMI BIOS dispatch in place of direct INT 10h for the narrow profile.
+ifdef PM_PERF_MINIMAL
+	call	PMPerfVideoBIOS
+else
 	int	VIDEO_BIOS
+endif
 endif		
 endm

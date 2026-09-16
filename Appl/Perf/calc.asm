@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-PERF-KR01] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-PERF-KR01] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-PERF-KR01] Do not sample the meters whose initialization was skipped; prevents division by zero in PerfCalcFreeHandles.
+; PM-BRINGUP [PM-PERF-KR01] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @----------------------------------------------------------------------
 
 	Copyright (c) GeoWorks 1992 -- All Rights Reserved
@@ -93,6 +97,11 @@ PerfCalcNewStats        proc    far     ;in PerfCalcStatCode resource
 	call    PerfCalcInterrupts
 	call    PerfCalcCPUUsage
 
+	; The PM profile skips legacy memory/PPP/handle initialization.
+	; Do not sample those meters either: handlesPerPixel is otherwise
+	; zero and PerfCalcFreeHandles causes KR-01 on the first update.
+; PM-BRINGUP [PM-PERF-KR01] BEGIN CHANGE: sampling must match init.asm; hidden controls alone do not prevent KR-01.
+ifndef PM_PERF_MINIMAL
 	;memory usage
 
 	call    CalcMemoryStatistics
@@ -108,6 +117,8 @@ PerfCalcNewStats        proc    far     ;in PerfCalcStatCode resource
 
 	call    PerfCalcPPPStatistics
 	call	PerfCalcFreeHandles
+endif ; not PM_PERF_MINIMAL
+; PM-BRINGUP [PM-PERF-KR01] END CHANGE: the four supported calculations above remain active.
 		
 	ret
 PerfCalcNewStats        endp

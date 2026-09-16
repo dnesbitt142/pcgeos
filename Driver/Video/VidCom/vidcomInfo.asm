@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-VBE] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-VBE] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-VBE] Use the PM BIOS helper for mode restoration, release the mapped window and propagate mode-set failure in the opt-in profile.
+; PM-BRINGUP [PM-VBE] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -173,7 +177,18 @@ if not NT_DRIVER
 
 		mov	ah, SET_VMODE			; set current mode
 		mov	al, fs:[prevVideoMode]		; restore it 
+; PM-BRINGUP [PM-VBE] ADDED profile cleanup: restore video via DPMI, then unmap and clear the window selector.
+ifdef PM_PERF_MINIMAL
+		call	PMPerfVideoBIOS
+		mov	ax, fs:[G_mainScreenBuffer]
+		tst	ax
+		jz	pmUnmapped
+		call	SysUnmapRealSegment
+		clr	fs:[G_mainScreenBuffer]
+pmUnmapped:
+else
 		int	VIDEO_BIOS
+endif
 endif
 done:
 		.leave
@@ -225,6 +240,14 @@ VidSetDevice	proc	far
 		; do any device-specific initialization
 alreadySet:
 		call	cs:[vidSetRoutines][di]
+; PM-BRINGUP [PM-VBE] ADDED failure propagation: reject the device when the profile mode-set routine returns carry.
+ifdef PM_PERF_MINIMAL
+		jnc	pmModeSet
+		mov	ds:[DriverTable].VDI_device, 0ffffh
+		mov	ax, DP_NOT_PRESENT
+		jmp	done
+pmModeSet:
+endif
 		
 		; now that device-specific initialization is out of the way,
 		; do some common stuff, like showing the cursor

@@ -1,0 +1,114 @@
+{
+  "source_base": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "targets": [
+    {
+      "target": "Loader32",
+      "source_output": "Installed/Loader32/Text/loader.exe",
+      "reference_archive": "pcgeos-pm-fault-snapshot.zip",
+      "reference_member": "pcgeos-pm-fault-snapshot/runtime/LOADER.EXE",
+      "reference_sha256": "192300afd9d6d7b6d992fe95bc40af1bb705e3f7a5a48774ecaad2596f619314",
+      "rebuilt_sha256": "192300afd9d6d7b6d992fe95bc40af1bb705e3f7a5a48774ecaad2596f619314",
+      "reference_bytes": 46352,
+      "rebuilt_bytes": 46352,
+      "byte_identical": true,
+      "payload_comparison_start": 0,
+      "payload_identical": true,
+      "difference_count": 0,
+      "all_difference_offsets": [],
+      "rebuilt_from_annotated_sources": true
+    },
+    {
+      "target": "Kernel",
+      "source_output": "Installed/Library/Kernel/geos.geo",
+      "reference_archive": "pcgeos-pm-full-product-build.zip",
+      "reference_member": "pcgeos-pm-full-product-build/runtime/SYSTEM/GEOS.GEO",
+      "reference_sha256": "72cd63c6b7eb81becf7f39c2b6d7377b77f7e6297d13ceabd6e3b156e801a40c",
+      "rebuilt_sha256": "13dbf54210f643243e40ee98677fa8b16af4dd1a8c8182d53b2c4a83b03ece23",
+      "reference_bytes": 266522,
+      "rebuilt_bytes": 266522,
+      "byte_identical": false,
+      "payload_comparison_start": 344,
+      "payload_identical": true,
+      "difference_count": 5,
+      "all_difference_offsets": [
+        "0xc8",
+        "0xca",
+        "0xcb",
+        "0x12a",
+        "0x12b"
+      ],
+      "rebuilt_from_annotated_sources": true
+    },
+    {
+      "target": "VGA16",
+      "source_output": "Installed/Driver/Video/VGAlike/VGA16/vga16.geo",
+      "reference_archive": "pcgeos-pm-full-product-build.zip",
+      "reference_member": "pcgeos-pm-full-product-build/runtime/SYSTEM/VIDEO/VGA16.GEO",
+      "reference_sha256": "75357984ed4abbe8d6c30a153bfee86c2e86a22cc2897f76ebf26aea265adf02",
+      "rebuilt_sha256": "f558d965c8ac642b031e147a66a81f8e87b7dc651e2c8974fba0126df419d766",
+      "reference_bytes": 25552,
+      "rebuilt_bytes": 25552,
+      "byte_identical": false,
+      "payload_comparison_start": 344,
+      "payload_identical": true,
+      "difference_count": 5,
+      "all_difference_offsets": [
+        "0xc8",
+        "0xca",
+        "0xcb",
+        "0x12a",
+        "0x12b"
+      ],
+      "rebuilt_from_annotated_sources": true
+    },
+    {
+      "target": "TrueType",
+      "source_output": "Installed/Driver/Font/TrueType/truetype.geo",
+      "reference_archive": "pcgeos-pm-truetype-fix.zip",
+      "reference_member": "pcgeos-pm-truetype-fix/runtime/SYSTEM/FONT/TRUETYPE.GEO",
+      "reference_sha256": "836e6562c9d97cfcf4fc007b0052a070be3db9c7b2f0408daa571e8b8c49b28c",
+      "rebuilt_sha256": "e6af057f74f43472c4a2402d4cf844740f409fa59f1a2bfd6f545579c02b7a34",
+      "reference_bytes": 78598,
+      "rebuilt_bytes": 78598,
+      "byte_identical": false,
+      "payload_comparison_start": 344,
+      "payload_identical": true,
+      "difference_count": 5,
+      "all_difference_offsets": [
+        "0xc8",
+        "0xca",
+        "0xcb",
+        "0x12a",
+        "0x12b"
+      ],
+      "rebuilt_from_annotated_sources": true
+    },
+    {
+      "target": "Perf",
+      "source_output": "Installed/Appl/Perf/perf.geo",
+      "reference_archive": "pcgeos-pm-perf-kr01-fix.zip",
+      "reference_member": "pcgeos-pm-perf-kr01-fix/runtime/WORLD/DESK_ACC.000/PERF.GEO",
+      "reference_sha256": "cf2e72183bb8cd345a7516ef7a5c83cfa1095d2ded7f4c17959823f3db253822",
+      "rebuilt_sha256": "370864cb901d6430087aa1fe392e78c69573dfecc494e232e65daa3a86b9d35e",
+      "reference_bytes": 9864,
+      "rebuilt_bytes": 9864,
+      "byte_identical": false,
+      "payload_comparison_start": 344,
+      "payload_identical": true,
+      "difference_count": 5,
+      "all_difference_offsets": [
+        "0xc8",
+        "0xca",
+        "0xcb",
+        "0x12a",
+        "0x12b"
+      ],
+      "rebuilt_from_annotated_sources": true
+    }
+  ],
+  "final_target_build_completed": true,
+  "final_build_log_no_recognized_fatal_diagnostics": true,
+  "guest_tested_this_handoff": false,
+  "full_product_rebuilt_this_handoff": false,
+  "initial_attempt_note": "An unnecessary AnsiC step in the initial validation recipe lacked math.ldf; the legacy tool returned success despite an error diagnostic. The log checker caught it. This extra step was removed from the focused validation, and all five affected targets were explicitly rebuilt with clean fatal-diagnostic checks. The full product graph itself was not rerun in this handoff."
+}

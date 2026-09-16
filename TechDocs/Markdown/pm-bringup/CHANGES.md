@@ -1,0 +1,79 @@
+# Consolidated change map
+
+Baseline: `30df506fc64720fd82e528acbcb192adbaa48fce`, from the uploaded protected-mode
+branch, not the separate master archive. The changes below are the final union
+of earlier implemented changes, not a new protected-mode redesign.
+
+| Repository-relative file | Status | Comment ID | Implemented change |
+|---|---|---|---|
+| `Appl/Perf/calc.asm` | modified | `PM-PERF-KR01` | Do not sample the meters whose initialization was skipped; prevents division by zero in PerfCalcFreeHandles. |
+| `Appl/Perf/init.asm` | modified | `PM-PERF` | Clear unsupported saved-state meters and omit their initialization in the four-meter profile. |
+| `Appl/Perf/local.mk` | modified | `PM-PERF` | Pass the opt-in PM_PERF_MINIMAL symbol to both assembler and UI compiler. |
+| `Appl/Perf/perf.asm` | modified | `PM-PERF` | Choose only CPU, load average, interrupts and context switches by default in the opt-in profile. |
+| `Appl/Perf/perf.ui` | modified | `PM-PERF` | Expose only those four meters in the opt-in UI; the original full UI remains in the other branch. |
+| `Driver/Font/TrueType/Adapter/ttinit.c` | modified | `PM-TTF` | Initialize the existing-family FontInfo pointer before reading outline offsets; fixes the reported MOV ES,BX fault. |
+| `Driver/Video/VGAlike/VGA16/local.mk` | modified | `PM-VBE` | Pass the opt-in PM_PERF_MINIMAL symbol to the VGA16 assembler; this symbol also selects the restricted display path. |
+| `Driver/Video/VGAlike/VGA16/vga16Admin.asm` | modified | `PM-VBE` | Preserve an existing video selector and select the narrow banked VBE path under PM_PERF_MINIMAL. |
+| `Driver/Video/VGAlike/VGA16/vga16Macro.def` | modified | `PM-VBE` | Route bank-switch BIOS calls through the DPMI real-interrupt helper in the opt-in profile. |
+| `Driver/Video/VGAlike/VGA16/vga16PMPerf.asm` | added | `PM-VBE` | NEW FILE: banked VBE 0111h, 640x480 RGB565 only; validate BIOS mode data and map/free DOS window selectors. |
+| `Driver/Video/VidCom/vidcomInfo.asm` | modified | `PM-VBE` | Use the PM BIOS helper for mode restoration, release the mapped window and propagate mode-set failure in the opt-in profile. |
+| `Library/Kernel/Sys/sysMisc.asm` | modified | `PM-UNMAP` | Forward SysUnmapRealSegment selector AX into GPMI BX and preserve the caller's BX. |
+| `Loader32/fault.asm` | added | `PM-DIAG2` | NEW FILE: bounded register/code/stack snapshot and best-effort GEOS resource identification; terminal reporting, not recovery. |
+| `Loader32/gpmi.asm` | modified | `PM-RESIZE` | Use a Linux-compatible include path; replace the faulty 64 KiB copy loop with DPMI 0503h resize and descriptor updates. |
+| `Loader32/main.asm` | modified | `PM-DIAG2` | Record loader startup stages and capture the 16-bit DPMI general-protection frame on a private emergency stack. |
+| `Loader32/strings.asm` | modified | `PM-DIAG2` | Replace the misleading strings-file fallback with per-error messages and PMDIAG2 output; exit DOS with failure status. |
+| `Tools/build/product/bbxensem/bbxensem.filetree` | modified | `PM-PRODUCT` | Use the built lowercase win32 GDI variant path on case-sensitive Linux filesystems. |
+
+## Supersession order
+
+1. The full-product package supplies the loader/GPMI, kernel, narrow VBE path,
+   Perf profile, and case-sensitive product-manifest changes.
+2. PMDIAG2 supplies the final `Loader32/main.asm`, `strings.asm` and new
+   `fault.asm`, including the earlier PMDIAG1 reporting correction.
+3. The TrueType update supplies the corrected `ttinit.c`.
+4. The Perf KR-01 update supplies the corrected `calc.asm`.
+5. This handoff adds comments and repository-local packaging/tooling only.
+
+The first minimal installation's `noSpooler = true` workaround is deliberately
+**not** the full-product profile: the selected product includes the spooler and
+sets `noSpooler = false`. `product_config.py` retains that configuration together
+with ISDesk, the taskbar applications, and `Desk Accessories\Perf` startup.
+
+## New repository-local tooling
+
+`Tools/build/pm-product/` contains the selected `Product.mk` build graph, build
+and assembly wrappers, INI profile editor, executable-header/import audit,
+compiler input hashes, source checker, native test fixture sources, and host
+source-handoff tests. It does not replace upstream `Installed/Makefile`.
+
+The graph retains the recorded GDIPointer-to-GDI dependency correction, uses
+normal/SBCS `part` targets, and documents the 18 upstream product-manifest
+exceptions in `source/product-exclusions.json`. Those exceptions are not fixed
+or silently filled with binaries from another branch.
+
+Compared with the old standalone package wrapper, the source-tree build wrapper
+no longer copies source replacements or reapplies a patch. It assumes the fork
+already contains this overlay. It forces the loader and TrueType intermediate
+objects to rebuild, while retaining the existing Perf/VGA flag-change rebuilds.
+Runtime batch instructions generated by the assembler refer to the source-tree
+build tooling rather than the superseded binary-install script.
+
+All new Python, shell, make and C helper files have `PM-BRINGUP` annotations.
+JSON provenance and exact historical logs are data, not commented program code.
+
+## Scope and review cautions
+
+`PM_PERF_MINIMAL=1` remains the shared historical switch for both the narrow
+VGA16 path and the four-meter Perf profile. Renaming/splitting that switch is a
+future refactor, not a change made here. `PROTECTED_MODE` comes from the uploaded
+branch's existing `product_flags` script; this handoff does not add it there.
+
+PMDIAG2's resource identification is best effort. Its descriptor/range checks do
+not validate page mappings or prove heap metadata is uncorrupted. It is a
+terminal diagnostic path, not recovery. The DPMI resize changes and full product
+have not been certified across arbitrary DPMI hosts or physical machines.
+
+Only the **new comments** are removed by the source check; after normalizing line
+endings, the resulting 17 files match their most recent supplied sources. This
+is deliberately stronger than relying on matching file names, but it is not a
+substitute for functional testing.

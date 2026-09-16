@@ -1,0 +1,74 @@
+[
+  {
+    "source": "Driver/Printer/DotMatrix/CanonRGB/canonrgb.geo",
+    "reason": "Requires the absent RGB2CMYK library. CanonBJC and other compiled printer drivers are included instead, not falsely substituted under the CanonRGB name."
+  },
+  {
+    "source": "Driver/Video/Dumb/ATT6300/att6300.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/Dumb/CGA/cga.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/Dumb/DSCGA/dscga.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/Dumb/HGC/hgc.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/Dumb/MCGA/mcga.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/VGAlike/EGA/ega.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/VGAlike/SVGA/svga.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/VGAlike/VGA/vga.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/VGAlike/VGA15/vga15.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/VGAlike/VGA24/vga24.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Driver/Video/VGAlike/VGA8/vga8.geo",
+    "reason": "This alternate legacy display driver fails to compile under the uploaded protected-mode branch. The selected 640x480 VESA VGA16 driver is included."
+  },
+  {
+    "source": "Library/RGB2CMYK/rgb2cmyk.geo",
+    "reason": "Referenced by the product manifest, but its implementation is absent from the uploaded protected-mode and master source archives."
+  },
+  {
+    "source": "Library/Trans/Text/MSMFile/msmfile.geo",
+    "reason": "Referenced by the product manifest, but its implementation is absent from the uploaded protected-mode and master source archives."
+  },
+  {
+    "source": "Library/Trans/Text/MicrosoftWord/msword.geo",
+    "reason": "The product manifest and Installed makefiles reference this legacy translator, but its implementation is absent from both uploaded source archives. Other available text translators, including RTF and Word 8, are retained."
+  },
+  {
+    "source": "Library/Trans/Text/WordPerfect5X/wperf5.geo",
+    "reason": "The product manifest and Installed makefiles reference this legacy translator, but its implementation is absent from both uploaded source archives. Other available text translators, including RTF and Word 8, are retained."
+  },
+  {
+    "source": "Tools/build/product/bbxensem/Images/BJC240.GEO",
+    "reason": "Referenced prebuilt file is absent from the uploaded product sources. No unrelated real-mode executable has been substituted."
+  },
+  {
+    "source": "Tools/build/product/bbxensem/System/ESCP.GEO",
+    "reason": "Referenced prebuilt file is absent from the uploaded product sources. No unrelated real-mode executable has been substituted."
+  }
+]

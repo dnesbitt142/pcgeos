@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-PERF] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-PERF] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-PERF] Choose only CPU, load average, interrupts and context switches by default in the opt-in profile.
+; PM-BRINGUP [PM-PERF] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @----------------------------------------------------------------------
 
 	Copyright (c) GeoWorks 1992 -- All Rights Reserved
@@ -365,6 +369,14 @@ onOffState	BooleanWord	TRUE	;ON by default
 ;wasteful (16 bits per flag), but it saves code bytes. IF YOU CHANGE THIS
 ;TABLE, CHANGE THE .UI FILE ALSO!
 
+; PM-BRINGUP [PM-PERF] ADDED four-meter defaults; this is not a restoration of all original protected-mode statistics.
+ifdef PM_PERF_MINIMAL
+graphModes	PerfStatStruc	<
+		TRUE, TRUE, TRUE, TRUE, ; CPU, load, interrupts, switches
+		FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+		FALSE, FALSE, FALSE
+>
+else
 graphModes	PerfStatStruc	<
 		TRUE,		;CPU Usage	= ON
 		TRUE,		;Load Average
@@ -381,6 +393,8 @@ graphModes	PerfStatStruc	<
 		FALSE,		;PPPOut
 		FALSE		;Free Handles
 >
+endif
+
 
 ;This is the initial color set, before the color user gets to change the
 ;color set. When he does, we will update both this list and the graphColors

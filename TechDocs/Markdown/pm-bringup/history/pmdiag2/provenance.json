@@ -1,0 +1,55 @@
+{
+  "scope": "PMDIAG2 fault snapshot; diagnostic only, not a fix for the reported GPF.",
+  "source_commit": "30df506fc64720fd82e528acbcb192adbaa48fce",
+  "compiler": "User-supplied OpenWatcom 2020-12-01 snapshot",
+  "source_zip_sha256": "c4d8246db68beb8a39231a798fe604d448d2816861e21d6ea38c251fbe1caba0",
+  "compiler_archive_sha256": "25ce668825a6e145e18d4347675912b98cb0f202d100bdc1a436f6fe69515f40",
+  "baseline_loader_sha256": "4d64a2f60e9529c6d81c1f82587f487f8424d6909d1236b59e3fab6b2ab06f09",
+  "baseline_rebuild_identical_to_shipped_loader": true,
+  "diagnostic_loader_sha256": "192300afd9d6d7b6d992fe95bc40af1bb705e3f7a5a48774ecaad2596f619314",
+  "diagnostic_loader_bytes": 46352,
+  "diagnostic_symbols_sha256": "47d5f180bff2b607d123393d223a594091994bd8d68cd81609b392db6bb086cf",
+  "guest_boot_tested": false,
+  "underlying_failure_identified": false,
+  "changes": [
+    {
+      "path": "Loader32/main.asm",
+      "original_sha256": "a7dff390f4d9fc729e239f2d08caa4f6a6d7113a039c8a8c745aff8bfa0ad1f0",
+      "predecessor_sha256": "fd385fa9c1844e2b5fd5a406e7f5663cc18a1e38add6496b68f02d7a8f5b806e",
+      "updated_sha256": "768e1d5a03320e8c74c35a9b13a234701fbe423c40ac805a52ad834e52979f3d"
+    },
+    {
+      "path": "Loader32/strings.asm",
+      "original_sha256": "a5815bcc0b6df714b0fa5e3cca465c08797f29db4a49079e7ff708b67841844b",
+      "predecessor_sha256": "db80c68fdee7b9b363c9701cb9844e0f1f7e42b97a10e47a06f3f8855255de4e",
+      "updated_sha256": "5d95832caa028087752be72561de0d3a1ba3563025f985d3d37b8bd6e017fd5d"
+    },
+    {
+      "path": "Loader32/fault.asm",
+      "original_sha256": null,
+      "predecessor_sha256": null,
+      "updated_sha256": "a5123840844e512566e8936dedba71987a047a6f247ba3101f8c904717b6f800"
+    }
+  ],
+  "second_clean_loader_object_rebuild_identical": true,
+  "predecessor_loader_sha256": "0565bb60643e06f945e4f4286f281de7c58aefab4347db92349509efc6ef47fd",
+  "predecessor_rebuild_identical": true,
+  "observed_user_report": {
+    "marker": "PMDIAG1",
+    "error": "0x000C",
+    "stage": "0x000F",
+    "cs_ip": "0637:0419",
+    "exception_error": "0x0010"
+  },
+  "fault_class_identified": true,
+  "backup_filename": "LDRD2.BAK",
+  "readable_probe_limitations": "VERR/LAR/LSL and bounds checks validate segment access, not page mappings or semantic correctness of heap metadata.",
+  "inherited_gpmi_sha256": "cd413b25f81e2bd578d12c505d957e70c02d6eeae11a1a09b44c94913f55a302",
+  "host_tests_passed": 60,
+  "host_tests_skipped": 0,
+  "full_prepared_install_checked": true,
+  "original_install_files": 675,
+  "original_files_unchanged": 674,
+  "previous_backup_preserved": true,
+  "snapshot_not_guest_tested": true
+}

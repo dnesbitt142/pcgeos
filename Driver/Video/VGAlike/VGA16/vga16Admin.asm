@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-VBE] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-VBE] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-VBE] Preserve an existing video selector and select the narrow banked VBE path under PM_PERF_MINIMAL.
+; PM-BRINGUP [PM-VBE] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	Copyright (c) GlobalPC 1998 -- All Rights Reserved
@@ -68,7 +72,8 @@ SetupVGAAccess	proc	near
 	uses ax, cx
 	.enter
 	mov	ax, fs:G_mainScreenBuffer
-	xor	ax, ax
+; PM-BRINGUP [PM-VBE] CHANGED from XOR to test: do not discard an already-mapped main-screen selector.
+	tst	ax
 	jne	done
 	mov	ax, 0xA000
 	mov	cx, 0xFFFF
@@ -592,6 +597,10 @@ REVISION HISTORY:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
 
+; PM-BRINGUP [PM-VBE] ADDED profile-specific probe/set implementation; existing implementation stays under ELSE.
+ifdef PM_PERF_MINIMAL
+include vga16PMPerf.asm
+else
 VidTestVESA	proc	near
 
 regs		local	PMRealModeRegister
@@ -802,6 +811,7 @@ notPresent::
 		mov	ax, DP_NOT_PRESENT	; 
 		jmp	done
 VidTestVESA	endp
+endif ; PM_PERF_MINIMAL
 
 
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -843,6 +853,8 @@ VidSetVESAFar	proc	far
 		ret
 VidSetVESAFar	endp
 
+; PM-BRINGUP [PM-VBE] ADDED guard: avoid compiling a second VidSetVESA in the narrow profile.
+ifndef PM_PERF_MINIMAL
 VidSetVESA	proc	near
 		uses	ax,bx,cx,dx,ds,si,es
 regs		local	PMRealModeRegister
@@ -1230,6 +1242,7 @@ winBRead:
 		mov	dx, ss:[modeInfo].VMI_winBSeg
 		jmp	storeRWWin
 VidSetVESA	endp
+endif ; PM_PERF_MINIMAL
 
 vesaHeight	label	word
 		word	480             ; VD_VESA_640x480_16

@@ -1,3 +1,7 @@
+; PM-BRINGUP [PM-UNMAP] CHANGED 2026-09-16; ChatGPT-assisted project changes.
+; PM-BRINGUP [PM-UNMAP] Base archive commit: 30df506fc64720fd82e528acbcb192adbaa48fce.
+; PM-BRINGUP [PM-UNMAP] Forward SysUnmapRealSegment selector AX into GPMI BX and preserve the caller's BX.
+; PM-BRINGUP [PM-UNMAP] See PM-BRINGUP.md and TechDocs/Markdown/pm-bringup/CHANGES.md; original notices retained.
 COMMENT @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	Copyright (c) GeoWorks 1989 -- All Rights Reserved
@@ -2107,11 +2111,12 @@ REVISION HISTORY:
 	dhunter 1/17/01   	Initial version
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@
+; PM-BRINGUP [PM-UNMAP] CHANGED wrapper below: public AX -> internal BX; save BX as well as the existing preserved registers.
 SysUnmapRealSegment	proc	far
-		uses	si, ax, ds, es
+		uses	si, ax, bx, ds, es
 		.enter
 		LoadVarSeg	ds
-		mov_tr	ax, bx		; ax = selector
+		mov_tr	bx, ax		; GPMI input is BX; public input is AX
                 les     si, ds:[loaderVars].KLV_GPMIVectorTable
                 call    {fptr}es:[si+GPMI_CALL_UNMAP_REAL_SEGMENT]
 		.leave

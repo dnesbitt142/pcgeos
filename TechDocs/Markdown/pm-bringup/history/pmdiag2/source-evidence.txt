@@ -1,0 +1,220 @@
+USER REPORT (transcribed from PMErr1.png; not a host-test output):
+System Error: general protection fault in protected mode
+PMDIAG1 error=0x000C stage=0x000F
+fault CS:IP=0637:0419 exception-error=0x0010
+
+INTERPRETATION:
+0x000C is a loader message ordinal. The installed x86 GPF handler is vector 0x0D.
+Stage 0x000F is the final loader marker, not a kernel/component progress marker.
+The selector-to-resource mapping at the time of this fault was not captured by PMDIAG1.
+No specific faulting instruction or underlying cause has been established.
+
+=== PMDIAG1 Loader32/main.asm: stage marker at kernel handoff ===
+ 250: 
+ 251: 	mov	ds:[loaderDiagnosticStage], 11 ; opening kernel
+ 252: PC <	call	OpenKernelGetDataSize					>
+ 253: 
+ 254: 	; Initialize the heap
+ 255: 
+ 256: 	mov	ds:[loaderDiagnosticStage], 12 ; initializing heap
+ 257: 	call	InitHeap
+ 258: 
+ 259: 	; Load in the kernel
+ 260: 
+ 261: 	mov	ds:[loaderDiagnosticStage], 13 ; loading/relocating kernel
+ 262: PC <	call	LoadKernel		; bx:ax <- library entry	>
+ 263: PC <	push	bx, ax			; push library entry
+ 264: 
+ 265: 	; make the kernel own all allocated blocks
+ 266: 
+ 267: 	mov	ds:[loaderDiagnosticStage], 14 ; transferring block ownership
+ 268: PC <	call	MakeKernelOwnBlocks					>
+ 269: 
+ 270: 	; jump to kernel's library entry point
+ 271: 	;	pass:
+ 272: 	;		ds, es - kernel's dgroup
+ 273: 	;		ss:sp - kernel's stack
+ 274: 	;		cx:dx - KernelLoadervars structure
+ 275: 
+ 276: 	mov	ds:[loaderDiagnosticStage], 15 ; kernel handoff (or later fault)
+ 277: 	pop	bx, ax
+ 278: 	mov	cx, es
+ 279: 	mov	dx, offset loaderVars
+ 280: 	mov	si, cs:[loaderVars].KLV_dgroupSegment
+ 281: 
+ 282: 	mov	ds, si
+ 283: 	mov	ss, si
+ 284: 	mov	sp, es:[loaderVars].KLV_handleTableStart
+ 285: 	mov	es, si
+ 286: 	push	bx, ax
+ 287: 
+ 288: 
+ 289: 	; let the debugger know we're launching the kernel (passing cx:dx)
+ 290: 
+ 291: endif
+ 292: kernelLoaded::
+ 293: 	mov	al, DEBUG_KERNEL_LOADED
+ 294: 	call	NotifyStub
+ 295: 
+ 296: 	; jump to the library entry point.
+ 297: 
+ 298: 	mov	di, LCT_ATTACH
+ 299: 	retf
+ 300: 
+ 301: LoadGeos	endp
+ 302: 
+ 303: 
+ 304: 
+ 305: COMMENT @----------------------------------------------------------------------
+ 306: 
+ 307: FUNCTION:	FindMemory
+
+=== PMDIAG1 Loader32/main.asm: original DPMI frame capture ===
+ 660:         ; Multiply current number by 10 for next digit
+ 661:         shl     bp, 1           ; x2
+ 662:         mov     si, bp
+ 663:         shl     bp, 1           ; x4
+ 664:         shl     bp, 1           ; x8
+ 665:         add     bp, si          ; x8 + x2 = x10
+ 666: 
+ 667:         ; Add in the next lowest digit
+ 668:         add     bp, ax
+ 669:         inc     di
+ 670:         jmp     convertLoop
+ 671: done:
+ 672:         ret
+ 673: TextToNumber    endp
+ 674: 
+ 675: GPF_Fault	proc far
+ 676: 	push	eax		; sp+4
+ 677: 	push	bx		; sp+6
+ 678: 	push	cx		; sp+8
+ 679: 	push	bp		; sp+10
+ 680: 	mov	bx, sp
+ 681: 	mov	cx, ss
+ 682: 	push	cx		; sp+12
+ 683: 	push	bx		; sp+14
+ 684: 
+ 685: 	; Put us back on the stack where we were when the protection fault occured
+ 686: 	mov	bp, sp
+ 687: 	; The existing 16-bit DPMI frame has error at +18, IP:CS at +20.
+ 688: 	; BP remains anchored to the original frame while DS is saved below.
+ 689: 	push	ds
+ 690: 	; A fault before GPMIAlias completes has no writable loader selector.
+ 691: 	tst	cs:[loaderDSSelector]
+ 692: 	jz	noDiagnosticAlias
+ 693: 	LoaderDS
+ 694: 	mov	eax, ss:[bp+20]
+ 695: 	mov	ds:[loaderDiagnosticFault], eax
+ 696: 	mov	ax, ss:[bp+18]
+ 697: 	mov	ds:[loaderDiagnosticFaultError], ax
+ 698: 	mov	ds:[loaderDiagnosticFaultValid], BB_TRUE
+ 699: noDiagnosticAlias:
+ 700: 	pop	ds
+ 701: 	mov	eax, ss:[bp+20]
+ 702: 	mov	bx, ss:[bp+26]	; sp on DPMI call stack
+ 703: 	mov	cx, ss:[bp+28]	; ss on DPMI call stack
+ 704: 	mov	sp, bx
+ 705: 	mov	ss, cx
+ 706: 
+ 707: 	; Use on this other stack
+ 708: 	push	eax
+ 709: 	on_stack retf
+ 710: 	mov	ax, LS_GENERAL_PROTECTION_ERROR
+ 711: 	call	LoaderError
+ 712: 
+ 713: 	pop	bx
+ 714: 	pop	cx
+ 715: 	mov	sp, bx
+ 716: 	mov	ss, cx
+ 717: 
+
+=== Loader32/loader.def: LoaderStrings ordinal definitions ===
+  60: VBAR			= 	179
+  61: 
+  62: ;------------------------------------------------------------------------------
+  63: ;	Kernel strings file definitions
+  64: ;------------------------------------------------------------------------------
+  65: 
+  66: MAX_STRING_IN_STRING_FILE_LENGTH	equ	55
+  67: MAX_ERROR_PREFIX_SIZE			equ	25
+  68: 
+  69: LoaderStrings	etype	word
+  70: LS_ERROR_PREFIX					enum	LoaderStrings
+  71: LS_CANNOT_LOCATE_KERNEL				enum	LoaderStrings
+  72: LS_CANNOT_OPEN_STRINGS_FILE			enum	LoaderStrings
+  73: LS_INIT_FILE_CANNOT_OPEN_FILE			enum	LoaderStrings
+  74: LS_INIT_FILE_CANNOT_READ_FILE			enum	LoaderStrings
+  75: LS_INIT_FILE_CORRUPT				enum	LoaderStrings
+  76: LS_INIT_FILE_TOO_LARGE				enum	LoaderStrings
+  77: LS_CANNOT_LOAD_KERNEL				enum	LoaderStrings
+  78: LS_NOT_ENOUGH_MEMORY				enum	LoaderStrings
+  79: LS_MALFORMED_PATH_SPEC				enum	LoaderStrings
+  80: LS_INVALID_MEMORY_ARGUMENT			enum	LoaderStrings
+  81: LS_GPMI_COULD_NOT_START				enum	LoaderStrings
+  82: LS_GENERAL_PROTECTION_ERROR			enum	LoaderStrings
+  83: 
+  84: if LOAD_DOS_EXTENDER
+  85: LS_CANNOT_LOAD_DOS_EXTENDER			enum	LoaderStrings
+  86: endif
+  87: 
+
+=== PMDIAG2 Loader32/main.asm: register/frame capture and private diagnostic stack ===
+ 663:         shl     bp, 1           ; x4
+ 664:         shl     bp, 1           ; x8
+ 665:         add     bp, si          ; x8 + x2 = x10
+ 666: 
+ 667:         ; Add in the next lowest digit
+ 668:         add     bp, ax
+ 669:         inc     di
+ 670:         jmp     convertLoop
+ 671: done:
+ 672:         ret
+ 673: TextToNumber    endp
+ 674: 
+ 675: GPF_Fault	proc far
+ 676: 	; DPMI 0.9 16-bit frame at entry: return IP:CS, error, fault IP:CS,
+ 677: 	; FLAGS, fault SP:SS. Save ALL general/segment registers before using
+ 678: 	; any of them. PUSHAD = 32 bytes, four segment pushes = 8 bytes.
+ 679: 	pushad
+ 680: 	push	ds
+ 681: 	push	es
+ 682: 	push	fs
+ 683: 	push	gs
+ 684: 	mov	bp, sp
+ 685: 	tst	cs:[loaderDSSelector]
+ 686: 	jz	earlyFault
+ 687: 	LoaderDS
+ 688: 	tst	ds:[loaderDiagnosticBusy]
+ 689: 	jnz	reentered
+ 690: 	mov	ds:[loaderDiagnosticBusy], BB_TRUE
+ 691: 	mov	eax, ss:[bp+46]
+ 692: 	mov	ds:[loaderDiagnosticFault], eax
+ 693: 	mov	ax, ss:[bp+44]
+ 694: 	mov	ds:[loaderDiagnosticFaultError], ax
+ 695: 	mov	ds:[loaderDiagnosticFaultValid], BB_TRUE
+ 696: 	; Copy the register save area and original 16-byte DPMI frame.
+ 697: 	mov	si, bp
+ 698: 	mov	di, offset loaderDiagnosticRawFrame
+ 699: 	mov	cx, 56
+ 700: 	LoaderES
+ 701: 	push	ds
+ 702: 	segmov	ds, ss
+ 703: 	cld
+ 704: 	rep	movsb
+ 705: 	pop	ds
+ 706: 	; Do not execute DOS reporting on a possibly corrupt application
+ 707: 	; stack. The fault is terminal: use our private emergency stack.
+ 708: 	mov	ax, ds
+ 709: 	mov	ss, ax
+ 710: 	mov	sp, offset loaderDiagnosticStackEnd
+ 711: 	call	LoaderDiagnosticProbe
+ 712: 	jmp	reportFault
+ 713: reentered:
+ 714: 	; Preserve the FIRST fault if a diagnostic read unexpectedly faults.
+ 715: 	mov	ds:[loaderDiagnosticAborted], BB_TRUE
+ 716: 	mov	ax, ds
+ 717: 	mov	ss, ax
+
+=== PMDIAG2 source layout: see Loader32/fault.asm in source/ ===
+
